@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Patient</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>LastName</th>
+                <th>FirstName</th>
+                <th>Family</th>
+                <th>Given</th>
+                <th>Date of Birth</th>
+                <th>Sex</th>
+                <th>Address</th>
+                <th>Phone</th>
+            </tr>
+            </thead>
+            <tbody>
+                <td th:text="${patient.lastName}"></td>
+                <td th:text="${patient.firstName}"></td>
+                <td th:text="${patient.family}"></td>
+                <td th:text="${patient.given}"></td>
+                <td th:text="${patient.dob}"></td>
+                <td th:text="${patient.sex}"></td>
+                <td th:text="${patient.address}"></td>
+                <td th:text="${patient.phone}"></td>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+</body>
+
+</html>
