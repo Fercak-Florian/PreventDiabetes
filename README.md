@@ -1,5 +1,5 @@
 # PreventDiabetes
-This application has benn developed to help doctors identify the patients most at risk of developing a form of diabetes.
+This application has been developed to help doctors identify the patients most at risk of developing a form of diabetes.
 This application is composed of 3 microservices.
 
 Spring Boot Project with :
