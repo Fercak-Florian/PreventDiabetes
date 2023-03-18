@@ -89,7 +89,7 @@
           <button type="submit" class="btn btn-danger btn-sm" formmethod="get"
                   formaction="/patient/list">Cancel</button>
           <button type="submit" class="btn btn-primary btn-sm" formmethod="post"
-                  th:formaction="@{/patient/update/{lastName}(lastName=${patient.lastName})}">Update Patient</button>
+                  th:formaction="@{/patient/update/{id}(id=${patient.id})}">Update Patient</button>
         </div>
       </div>
     </form>
