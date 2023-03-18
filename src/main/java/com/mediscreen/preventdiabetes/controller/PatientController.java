@@ -72,18 +72,17 @@ public class PatientController {
         return "redirect:/patient/list";
     }
 
-    @GetMapping("/patient/update/{lastName}")
-    public String showUpdatePatientForm(@PathVariable("lastName") String lastName, Model model){
-        log.info("le nom de famille est : " + lastName);
-        Optional<Patient> optPatient = patientService.getPatient(lastName);
+    @GetMapping("/patient/update/{id}")
+    public String showUpdatePatientForm(@PathVariable("id") String id, Model model){
+        Optional<Patient> optPatient = patientService.getPatientById(id);
         Patient patient = optPatient.get();
         model.addAttribute("patient", patient);
         return "patient/update";
     }
 
-    @PostMapping("/patient/update/{lastName}")
-    public String updatePatient(@PathVariable("lastName") String lastName, @Valid Patient patient){
-        patientService.updatePatient(lastName, patient);
+    @PostMapping("/patient/update/{id}")
+    public String updatePatient(@PathVariable("id") String id, @Valid Patient patient){
+        patientService.updatePatient(id, patient);
         return "redirect:/patient/list";
     }
 

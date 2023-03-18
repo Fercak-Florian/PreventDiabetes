@@ -26,12 +26,16 @@ public class PatientService {
         return patientRepository.findByLastName(lastName);
     }
 
+    public Optional<Patient> getPatientById(String id){
+        return patientRepository.findById(id);
+    }
+
     public void addPatient(Patient patient) {
         patientRepository.insert(patient);
     }
 
-    public Patient updatePatient(String lastName, Patient patient){
-        Optional<Patient> optPatient = patientRepository.findByLastName(lastName);
+    public Patient updatePatient(String id, Patient patient){
+        Optional<Patient> optPatient = patientRepository.findById(id);
         Patient patientToUpdate = optPatient.get();
         patientToUpdate.setFirstName(patient.getFirstName());
         patientToUpdate.setLastName(patient.getLastName());
