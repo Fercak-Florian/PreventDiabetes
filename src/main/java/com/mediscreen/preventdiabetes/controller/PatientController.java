@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.naming.Binding;
 import javax.validation.Valid;
 
 import java.math.BigInteger;
@@ -24,7 +26,7 @@ public class PatientController {
     }
 
     @GetMapping("/")
-    public String home(){
+    public String home() {
         return "home";
     }
 
@@ -67,13 +69,19 @@ public class PatientController {
     }
 
     @PostMapping("/patient/validate")
-    public String validatePatient(@ModelAttribute Patient patient){
-        patientService.addPatient(patient);
-        return "redirect:/patient/list";
+    public String validatePatient(@Valid Patient patient, BindingResult result) {
+        if (result.hasErrors()) {
+            log.warn("patient not saved");
+            return "patient/add";
+        } else {
+            patientService.addPatient(patient);
+            log.info("patient saved");
+            return "redirect:/patient/list";
+        }
     }
 
     @GetMapping("/patient/update/{id}")
-    public String showUpdatePatientForm(@PathVariable("id") String id, Model model){
+    public String showUpdatePatientForm(@PathVariable("id") String id, Model model) {
         Optional<Patient> optPatient = patientService.getPatientById(id);
         Patient patient = optPatient.get();
         model.addAttribute("patient", patient);
@@ -81,13 +89,18 @@ public class PatientController {
     }
 
     @PostMapping("/patient/update/{id}")
-    public String updatePatient(@PathVariable("id") String id, @Valid Patient patient){
-        patientService.updatePatient(id, patient);
-        return "redirect:/patient/list";
+    public String updatePatient(@PathVariable("id") String id, @Valid Patient patient, BindingResult result) {
+        if (result.hasErrors()) {
+            log.warn("patient not updated");
+            return "patient/update";
+        } else {
+            patientService.updatePatient(id, patient);
+            return "redirect:/patient/list";
+        }
     }
 
     @GetMapping("patient/delete/{id}")
-    public String deletePatient(@PathVariable("id") String id){
+    public String deletePatient(@PathVariable("id") String id) {
         patientService.deletePatient(id);
         return "redirect:/patient/list";
     }
