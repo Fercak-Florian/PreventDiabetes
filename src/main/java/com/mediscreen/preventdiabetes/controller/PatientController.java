@@ -31,8 +31,8 @@ public class PatientController {
     }
 
     @GetMapping("/patient/get")
-    public String getPatient(@RequestParam String lastName, Model model) {
-        Optional<Patient> optPatient = patientService.getPatient(lastName);
+    public String getPatient(@RequestParam String lastName,String firstName, Model model) {
+        Optional<Patient> optPatient = patientService.getPatient(lastName, firstName);
         Patient patient = optPatient.get();
         model.addAttribute("patient", patient);
         log.info("display patient information");

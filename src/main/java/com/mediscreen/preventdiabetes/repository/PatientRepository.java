@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface PatientRepository extends MongoRepository<Patient, Integer> {
-    Optional<Patient> findByLastName(String lastName);
+    Optional<Patient> findByLastNameAndFirstName(String lastName, String firstName);
     Optional<Patient> findById(String id);
     Optional<Patient> deleteById(String id);
 }

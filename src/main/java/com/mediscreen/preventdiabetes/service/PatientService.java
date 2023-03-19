@@ -22,8 +22,8 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public Optional<Patient> getPatient(String lastName){
-        return patientRepository.findByLastName(lastName);
+    public Optional<Patient> getPatient(String lastName, String firstName){
+        return patientRepository.findByLastNameAndFirstName(lastName, firstName);
     }
 
     public Optional<Patient> getPatientById(String id){
