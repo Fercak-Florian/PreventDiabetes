@@ -21,6 +21,13 @@
         <h2>Search Patient</h2>
     </div>
 
+    <!-- Error message management -->
+    <div class="text-danger" th:if="${formComment.error}">
+        <label th:text="${formComment.message}"></label>
+    </div>
+
+    <div th:if="${formComment.clearMessage}"></div>
+
     <div class="row">
         <form th:action="@{/patient/get}" th:object="${lightPatient}" method="post" class="form-horizontal"
               style="width: 100%">
