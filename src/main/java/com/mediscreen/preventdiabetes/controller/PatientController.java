@@ -2,12 +2,16 @@ package com.mediscreen.preventdiabetes.controller;
 
 import com.mediscreen.preventdiabetes.model.Patient;
 import com.mediscreen.preventdiabetes.service.PatientService;
+import com.mediscreen.preventdiabetes.utils.FormComment;
 import com.mediscreen.preventdiabetes.utils.LightPatient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +21,11 @@ import java.util.Optional;
 public class PatientController {
 
     private PatientService patientService;
+    private FormComment formComment;
 
-    public PatientController(PatientService patientService) {
+    public PatientController(PatientService patientService, FormComment formComment) {
         this.patientService = patientService;
+        this.formComment = formComment;
     }
 
     @GetMapping("/")
@@ -33,6 +39,7 @@ public class PatientController {
         LightPatient lightPatient = new LightPatient();
         Patient patient = new Patient();
         model.addAttribute("lightPatient", lightPatient);
+        model.addAttribute("formComment", formComment);
         log.info("display patient information");
         return "patient/search";
     }
@@ -40,14 +47,23 @@ public class PatientController {
     @PostMapping("/patient/get")
     public String getPatient(@Valid LightPatient lightPatient, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("formComment", formComment);
             log.warn("error in user input");
             return "patient/search";
         } else {
             Optional<Patient> optPatient = patientService.getPatient(lightPatient.getLastName(), lightPatient.getFirstName());
-            Patient patient = optPatient.get();
-            model.addAttribute("patient", patient);
-            log.info("display patient information");
-            return "patient/get";
+            if (optPatient.isEmpty()) {
+                log.warn("patient does not exist");
+                formComment.setError(true);
+                formComment.setMessage("Patient does not exist");
+                model.addAttribute("formComment", formComment);
+                return "patient/search";
+            } else {
+                Patient patient = optPatient.get();
+                model.addAttribute("patient", patient);
+                log.info("display patient information");
+                return "patient/get";
+            }
         }
     }
 
