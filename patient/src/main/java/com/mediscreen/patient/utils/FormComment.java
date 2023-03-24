@@ -1,7 +1,6 @@
-package com.mediscreen.preventdiabetes.utils;
+package com.mediscreen.patient.utils;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Data
