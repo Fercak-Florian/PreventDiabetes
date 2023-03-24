@@ -1,9 +1,9 @@
-package com.mediscreen.preventdiabetes.controller;
+package com.mediscreen.patient.controller;
 
-import com.mediscreen.preventdiabetes.model.Patient;
-import com.mediscreen.preventdiabetes.service.PatientService;
-import com.mediscreen.preventdiabetes.utils.FormComment;
-import com.mediscreen.preventdiabetes.utils.LightPatient;
+import com.mediscreen.patient.model.Patient;
+import com.mediscreen.patient.service.PatientService;
+import com.mediscreen.patient.utils.FormComment;
+import com.mediscreen.patient.utils.LightPatient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +32,6 @@ public class PatientController {
     public String home() {
         return "home";
     }
-
 
     @GetMapping("/patient/search")
     public String showSearchPatientForm(Model model) {
@@ -67,28 +66,14 @@ public class PatientController {
         }
     }
 
-    /**
-     * This is an endPoint.
-     * This method displays the patient list
-     *
-     * @param Model Object
-     * @return a String which is the path to the HTML page
-     */
     @GetMapping("/patient/list")
-    public String getAllPatients(Model model) {
-        List<Patient> patients = patientService.getAllPatients();
+    public String getPatients(Model model) {
+        List<Patient> patients = patientService.getPatients();
         model.addAttribute("patients", patients);
         log.info("display patient list");
         return "patient/list";
     }
 
-    /**
-     * This is an endPoint.
-     * This method displays the form to add a Patient
-     *
-     * @param Model Object
-     * @return a String which is the path to the HTML page
-     */
     @GetMapping("/patient/add")
     public String showAddPatientForm(Model model) {
         model.addAttribute("patient", new Patient());
@@ -130,12 +115,6 @@ public class PatientController {
     @GetMapping("patient/delete/{id}")
     public String deletePatient(@PathVariable("id") String id) {
         patientService.deletePatient(id);
-        return "redirect:/patient/list";
-    }
-
-    @GetMapping("/patient/deleteAll")
-    public String deleteAllPatients() {
-        patientService.deleteAllPatient();
         return "redirect:/patient/list";
     }
 }

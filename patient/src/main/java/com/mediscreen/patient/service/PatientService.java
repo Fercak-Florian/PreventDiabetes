@@ -1,11 +1,9 @@
-package com.mediscreen.preventdiabetes.service;
+package com.mediscreen.patient.service;
 
-import com.mediscreen.preventdiabetes.model.Patient;
-import com.mediscreen.preventdiabetes.repository.PatientRepository;
-import org.springframework.data.domain.Example;
+import com.mediscreen.patient.model.Patient;
+import com.mediscreen.patient.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +16,7 @@ public class PatientService {
         this.patientRepository = patientRepository;
     }
 
-    public List<Patient> getAllPatients() {
+    public List<Patient> getPatients() {
         return patientRepository.findAll();
     }
 
@@ -51,9 +49,5 @@ public class PatientService {
 
     public void deletePatient(String id){
        patientRepository.deleteById(id);
-    }
-
-    public void deleteAllPatient(){
-        patientRepository.deleteAll();
     }
 }

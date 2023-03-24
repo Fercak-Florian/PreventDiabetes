@@ -24,8 +24,8 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>LastName</th>
                 <th>FirstName</th>
+                <th>LastName</th>
                 <th>Family</th>
                 <th>Given</th>
                 <th>Date of Birth</th>
@@ -36,8 +36,8 @@
             </thead>
             <tbody>
             <tr th:each="patient: ${patients}">
-                <td th:text="${patient.lastName}"></td>
                 <td th:text="${patient.firstName}"></td>
+                <td th:text="${patient.lastName}"></td>
                 <td th:text="${patient.family}"></td>
                 <td th:text="${patient.given}"></td>
                 <td th:text="${patient.dob}"></td>
