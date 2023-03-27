@@ -16,6 +16,7 @@ public class Note {
 
     @Id
     private String id;
+    @NotBlank(message = "Patient id is mandatory")
     private String patientId;
     @NotBlank(message = "Date of creation is mandatory")
     private String dateOfCreation;
