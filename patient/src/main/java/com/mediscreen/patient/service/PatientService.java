@@ -23,8 +23,14 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public Optional<Patient> getPatient(String lastName, String firstName) {
-        return patientRepository.findByLastNameAndFirstName(lastName, firstName);
+    public Patient getPatient(String lastName, String firstName) {
+        Optional<Patient> optionalPatient = patientRepository.findByLastNameAndFirstName(lastName, firstName);
+        if(optionalPatient.isEmpty()){
+            log.warn("patient : " + firstName + " " + lastName + " is not found");
+            throw new PatientNotFoundException("patient : " + firstName + " " + lastName + " is not found");
+        } else {
+            return optionalPatient.get();
+        }
     }
 
     public Patient getPatientById(String id) {

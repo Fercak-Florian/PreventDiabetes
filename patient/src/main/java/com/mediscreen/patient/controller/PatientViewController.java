@@ -50,18 +50,17 @@ public class PatientViewController {
             log.warn("error in user input");
             return "patient/search";
         } else {
-            Optional<Patient> optionalPatient = patientService.getPatient(lightPatient.getLastName(), lightPatient.getFirstName());
-            if (optionalPatient.isEmpty()) {
+            try{
+                Patient patient = patientService.getPatient(lightPatient.getLastName(), lightPatient.getFirstName());
+                model.addAttribute("patient", patient);
+                log.info("display patient information");
+                return "patient/get";
+            } catch (Exception e){
                 log.warn("patient does not exist");
                 formComment.setError(true);
                 formComment.setMessage("Patient does not exist");
                 model.addAttribute("formComment", formComment);
                 return "patient/search";
-            } else {
-                Patient patient = optionalPatient.get();
-                model.addAttribute("patient", patient);
-                log.info("display patient information");
-                return "patient/get";
             }
         }
     }
