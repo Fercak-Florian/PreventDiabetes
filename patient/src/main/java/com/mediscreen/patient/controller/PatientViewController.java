@@ -18,12 +18,12 @@ import java.util.Optional;
 
 @Slf4j
 @Controller
-public class PatientController {
+public class PatientViewController {
 
     private PatientService patientService;
     private FormComment formComment;
 
-    public PatientController(PatientService patientService, FormComment formComment) {
+    public PatientViewController(PatientService patientService, FormComment formComment) {
         this.patientService = patientService;
         this.formComment = formComment;
     }
@@ -50,15 +50,15 @@ public class PatientController {
             log.warn("error in user input");
             return "patient/search";
         } else {
-            Optional<Patient> optPatient = patientService.getPatient(lightPatient.getLastName(), lightPatient.getFirstName());
-            if (optPatient.isEmpty()) {
+            Optional<Patient> optionalPatient = patientService.getPatient(lightPatient.getLastName(), lightPatient.getFirstName());
+            if (optionalPatient.isEmpty()) {
                 log.warn("patient does not exist");
                 formComment.setError(true);
                 formComment.setMessage("Patient does not exist");
                 model.addAttribute("formComment", formComment);
                 return "patient/search";
             } else {
-                Patient patient = optPatient.get();
+                Patient patient = optionalPatient.get();
                 model.addAttribute("patient", patient);
                 log.info("display patient information");
                 return "patient/get";
@@ -95,8 +95,7 @@ public class PatientController {
 
     @GetMapping("/patient/update/{id}")
     public String showUpdatePatientForm(@PathVariable("id") String id, Model model) {
-        Optional<Patient> optPatient = patientService.getPatientById(id);
-        Patient patient = optPatient.get();
+        Patient patient = patientService.getPatientById(id);
         model.addAttribute("patient", patient);
         return "patient/update";
     }
