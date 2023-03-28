@@ -2,9 +2,11 @@ package com.mediscreen.patient.controller;
 
 import com.mediscreen.patient.model.Patient;
 import com.mediscreen.patient.service.PatientService;
+import com.mediscreen.patient.utils.LightPatient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,7 +28,7 @@ public class PatientRestController {
     @GetMapping("/api/patient")
     public ResponseEntity<List<Patient>> getPatients() {
         List<Patient> patients = patientService.getPatients();
-        if(patients.isEmpty()){
+        if (patients.isEmpty()) {
             log.warn("patient list is empty");
             return ResponseEntity.internalServerError().build();
         } else {
@@ -36,7 +38,7 @@ public class PatientRestController {
     }
 
     @GetMapping("/api/patient/{id}")
-    public ResponseEntity<Patient> getPatient(@PathVariable("id") String id) {
+    public ResponseEntity<Patient> getPatientById(@PathVariable("id") String id) {
         try {
             Patient patient = patientService.getPatientById(id);
             log.info("providing patient information");
@@ -47,42 +49,44 @@ public class PatientRestController {
         }
     }
 
-    @PostMapping("/api/patient")
-    public ResponseEntity<Patient> addPatient(@Valid @RequestBody Patient patient, BindingResult result) {
-        if (result.hasErrors()) {
-            log.warn("error in input fields");
-            return ResponseEntity.badRequest().build();
-        } else {
-            Patient addedPatient = patientService.addPatient(patient);
-            log.info("patient created");
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(addedPatient.getId())
-                    .toUri();
-            return ResponseEntity.created(location).build();
+    @PostMapping("/api/patient/lightPatient")
+    public ResponseEntity<Patient> getPatientByFirstNameAndLastName(@Valid @RequestBody LightPatient lightPatient) {
+        try {
+            Patient patient = patientService.getPatientByFirstNameAndLastName(lightPatient.getLastName(), lightPatient.getFirstName());
+            log.info("providing patient information");
+            return ResponseEntity.ok(patient);
+        } catch (Exception e) {
+            log.warn("patient : " + lightPatient.getFirstName() + " " + lightPatient.getLastName() + " is not found");
+            return ResponseEntity.notFound().build();
         }
     }
 
+    @PostMapping("/api/patient")
+    public ResponseEntity<Patient> addPatient(@Valid @RequestBody Patient patient) {
+        Patient addedPatient = patientService.addPatient(patient);
+        log.info("patient created");
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(addedPatient.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
     @PutMapping("/api/patient/{id}")
-    public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient, @PathVariable String id, BindingResult result) {
-        if (result.hasErrors()) {
-            log.warn("error in input field");
-            return ResponseEntity.badRequest().build();
-        } else {
-            try {
-                Patient updatedPatient = patientService.updatePatient(id, patient);
-                log.info("patient updated");
-                URI location = ServletUriComponentsBuilder
-                        .fromCurrentRequest()
-                        .path("/{id}")
-                        .buildAndExpand(updatedPatient.getId())
-                        .toUri();
-                return ResponseEntity.created(location).build();
-            } catch (Exception e) {
-                log.warn("patient not found for this id : " + id);
-                return ResponseEntity.notFound().build();
-            }
+    public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient, @PathVariable String id) {
+        try {
+            Patient updatedPatient = patientService.updatePatient(id, patient);
+            log.info("patient updated");
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(updatedPatient.getId())
+                    .toUri();
+            return ResponseEntity.created(location).build();
+        } catch (Exception e) {
+            log.warn("patient not found for this id : " + id);
+            return ResponseEntity.notFound().build();
         }
     }
 
