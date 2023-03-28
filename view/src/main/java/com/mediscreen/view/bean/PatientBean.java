@@ -1,8 +1,10 @@
 package com.mediscreen.view.bean;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class PatientBean {
 
     private String id;

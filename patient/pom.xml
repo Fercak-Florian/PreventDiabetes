@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mediscreen</groupId>
-	<artifactId>PreventDiabetes</artifactId>
+	<artifactId>patient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>patient</name>
 	<description>Spring Boot project for clinique Abernathy</description>
