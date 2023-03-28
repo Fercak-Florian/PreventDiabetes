@@ -5,8 +5,6 @@ import com.mediscreen.patient.service.PatientService;
 import com.mediscreen.patient.utils.LightPatient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,11 +15,11 @@ import java.util.List;
 
 @Slf4j
 @RestController
-public class PatientRestController {
+public class PatientController {
 
     private PatientService patientService;
 
-    public PatientRestController(PatientService patientService) {
+    public PatientController(PatientService patientService) {
         this.patientService = patientService;
     }
 
