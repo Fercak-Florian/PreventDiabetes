@@ -23,7 +23,7 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public Patient getPatient(String lastName, String firstName) {
+    public Patient getPatientByFirstNameAndLastName(String lastName, String firstName) {
         Optional<Patient> optionalPatient = patientRepository.findByLastNameAndFirstName(lastName, firstName);
         if(optionalPatient.isEmpty()){
             log.warn("patient : " + firstName + " " + lastName + " is not found");

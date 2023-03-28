@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -50,12 +49,12 @@ public class PatientViewController {
             log.warn("error in user input");
             return "patient/search";
         } else {
-            try{
-                Patient patient = patientService.getPatient(lightPatient.getLastName(), lightPatient.getFirstName());
+            try {
+                Patient patient = patientService.getPatientByFirstNameAndLastName(lightPatient.getLastName(), lightPatient.getFirstName());
                 model.addAttribute("patient", patient);
                 log.info("display patient information");
                 return "patient/get";
-            } catch (Exception e){
+            } catch (Exception e) {
                 log.warn("patient does not exist");
                 formComment.setError(true);
                 formComment.setMessage("Patient does not exist");
