@@ -12,7 +12,7 @@
 	<groupId>com.mediscreen</groupId>
 	<artifactId>PreventDiabetes</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Patient</name>
+	<name>patient</name>
 	<description>Spring Boot project for clinique Abernathy</description>
 	<properties>
 		<java.version>11</java.version>
