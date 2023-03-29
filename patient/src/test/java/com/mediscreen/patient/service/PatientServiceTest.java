@@ -1,5 +1,6 @@
 package com.mediscreen.patient.service;
 
+import com.mediscreen.patient.exception.PatientNotFoundException;
 import com.mediscreen.patient.model.Patient;
 import com.mediscreen.patient.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,13 +29,13 @@ public class PatientServiceTest {
     PatientRepository patientRepository;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         patientService = new PatientService(patientRepository);
     }
 
     @Test
     @DisplayName("Test de récupération de tous les patients")
-    public void testGetPatients(){
+    public void testGetPatients() {
         /*ARRANGE*/
         Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         List<Patient> patientList = new ArrayList<>();
@@ -50,7 +52,7 @@ public class PatientServiceTest {
 
     @Test
     @DisplayName("Test de récupération d'un patient par son nom et prénom'")
-    public void testGetPatientByFirstNameAndLastName(){
+    public void testGetPatientByFirstNameAndLastName() {
         /*ARRANGE*/
         Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
@@ -65,8 +67,23 @@ public class PatientServiceTest {
     }
 
     @Test
+    @DisplayName("Echec lors lors de la récupération d'un patient par son nom et prénom'")
+    public void testGetPatientByFirstNameAndLastNameReturnNull() {
+        /*ARRANGE*/
+        Optional<Patient> optionalPatient = Optional.empty();
+        when(patientRepository.findByLastNameAndFirstName("", "")).thenReturn(optionalPatient);
+
+        /*ACT*/
+        Patient result = patientService.getPatientByFirstNameAndLastName("", "");
+
+        /*ASSERT*/
+        assertThat(result).isNull();
+        verify(patientRepository).findByLastNameAndFirstName("", "");
+    }
+
+    @Test
     @DisplayName("Test de récupération d'un patient par son id")
-    public void testGetPatientById(){
+    public void testGetPatientById() {
         /*ARRANGE*/
         Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
@@ -81,8 +98,23 @@ public class PatientServiceTest {
     }
 
     @Test
+    @DisplayName("Echec de la récupération d'un patient par son id")
+    public void testGetPatientByIdReturnNull(){
+        /*ARRANGE*/
+        Optional<Patient> optionalPatient = Optional.empty();
+        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+
+        /*ACT*/
+        Patient result = patientService.getPatientById("1");
+
+        /*ASSERT*/
+        assertThat(result).isNull();
+        verify(patientRepository).findById("1");
+    }
+
+    @Test
     @DisplayName("Test de sauvegarde d'un patient")
-    public void testAddPatient(){
+    public void testAddPatient() {
         /*ARRANGE*/
         Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         when(patientRepository.insert(patient)).thenReturn(patient);
@@ -97,7 +129,7 @@ public class PatientServiceTest {
 
     @Test
     @DisplayName("Test de mis à jour d'un patient")
-    public void testUpdatePatient(){
+    public void testUpdatePatient() {
         /*ARRANGE*/
         Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
@@ -117,17 +149,49 @@ public class PatientServiceTest {
         verify(patientRepository).save(modifiedPatient);
     }
 
-    @Disabled
+    @Test
+    @DisplayName("Echec de mis à jour d'un patient")
+    public void testUpdatePatientReturnNull(){
+        /*ARRANGE*/
+        Optional<Patient> optionalPatient = Optional.empty();
+        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+
+        /*ACT*/
+        Patient result = patientService.updatePatient("1", new Patient());
+
+        /*ASSERT*/
+        assertThat(result).isNull();
+        verify(patientRepository).findById("1");
+    }
+    
     @Test
     @DisplayName("Test de suppression d'un patient")
-    public void testDeletedPatient(){
+    public void testDeletedPatient() {
         /*ARRANGE*/
-        List<Patient> patients = new ArrayList<>();
         Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
         when(patientRepository.findById("1")).thenReturn(optionalPatient);
+
         /*ACT*/
-        patientService.deletePatient("1");
+        Patient result = patientService.deletePatient("1");
+
         /*ASSERT*/
+        assertThat(result.getFirstName()).isEqualTo("Tessa");
+        verify(patientRepository).deleteById("1");
+    }
+
+    @Test
+    @DisplayName("Echec lors de la suppression d'un patient")
+    public void testDeletePatientReturnNull(){
+        /*ARRANGE*/
+        Optional<Patient> optionalPatient = Optional.empty();
+        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+
+        /*ACT*/
+        Patient result = patientService.deletePatient("1");
+
+        /*ASSERT*/
+        assertThat(result).isNull();
+        verify(patientRepository).findById("1");
     }
 }
