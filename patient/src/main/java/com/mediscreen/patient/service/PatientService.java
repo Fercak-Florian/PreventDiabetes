@@ -20,24 +20,26 @@ public class PatientService {
     }
 
     public List<Patient> getPatients() {
+        log.info("providing patient list");
         return patientRepository.findAll();
     }
 
     public Patient getPatientByFirstNameAndLastName(String lastName, String firstName) {
         Optional<Patient> optionalPatient = patientRepository.findByLastNameAndFirstName(lastName, firstName);
-        if(optionalPatient.isEmpty()){
+        if (optionalPatient.isEmpty()) {
             log.warn("patient : " + firstName + " " + lastName + " is not found");
-            throw new PatientNotFoundException("patient : " + firstName + " " + lastName + " is not found");
+            return null;
         } else {
+            log.warn("providing patient object");
             return optionalPatient.get();
         }
     }
 
     public Patient getPatientById(String id) {
         Optional<Patient> optionalPatient = patientRepository.findById(id);
-        if(optionalPatient.isEmpty()){
+        if (optionalPatient.isEmpty()) {
             log.warn("patient with id : " + id + " is not found");
-            throw new PatientNotFoundException("patient with id : " + id + " is not found");
+            return null;
         } else {
             log.info("patient is found");
             return optionalPatient.get();
@@ -52,7 +54,7 @@ public class PatientService {
         Optional<Patient> optionalPatient = patientRepository.findById(id);
         if (optionalPatient.isEmpty()) {
             log.warn("patient not found for this id : " + id);
-            throw new PatientNotFoundException("Patient with id " + id + " is not found");
+            return null;
         } else {
             Patient patientToUpdate = optionalPatient.get();
             patientToUpdate.setFirstName(patient.getFirstName());
@@ -67,14 +69,15 @@ public class PatientService {
         }
     }
 
-    public void deletePatient(String id) {
+    public Patient deletePatient(String id) {
         Optional<Patient> optionalPatient = patientRepository.findById(id);
-        if(optionalPatient.isEmpty()){
+        if (optionalPatient.isEmpty()) {
             log.warn("patient not found for this id : " + id);
-            throw new PatientNotFoundException("Patient with id " + id + " is not found");
+            return null;
         } else {
             patientRepository.deleteById(id);
-            log.info("patient with the id " + id + " has been deleted");
+            log.info("patient with the id " + id + " is deleted");
+            return optionalPatient.get();
         }
     }
 }
