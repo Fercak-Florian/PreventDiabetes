@@ -63,8 +63,7 @@ public class PatientService {
             patientToUpdate.setSex(patient.getSex());
             patientToUpdate.setAddress(patient.getAddress());
             patientToUpdate.setPhone(patient.getPhone());
-            patientRepository.save(patientToUpdate);
-            return patientToUpdate;
+            return patientRepository.save(patientToUpdate);
         }
     }
 

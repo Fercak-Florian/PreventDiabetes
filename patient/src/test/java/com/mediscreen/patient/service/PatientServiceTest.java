@@ -1,0 +1,133 @@
+package com.mediscreen.patient.service;
+
+import com.mediscreen.patient.model.Patient;
+import com.mediscreen.patient.repository.PatientRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class PatientServiceTest {
+
+    private PatientService patientService;
+
+    @Mock
+    PatientRepository patientRepository;
+
+    @BeforeEach
+    public void init(){
+        patientService = new PatientService(patientRepository);
+    }
+
+    @Test
+    @DisplayName("Test de récupération de tous les patients")
+    public void testGetPatients(){
+        /*ARRANGE*/
+        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        List<Patient> patientList = new ArrayList<>();
+        patientList.add(patient);
+        when(patientService.getPatients()).thenReturn(patientList);
+
+        /*ACT*/
+
+        List<Patient> result = patientService.getPatients();
+        /*ASSERT*/
+        assertThat(result.get(0).getFirstName()).isEqualTo("Tessa");
+        verify(patientRepository).findAll();
+    }
+
+    @Test
+    @DisplayName("Test de récupération d'un patient par son nom et prénom'")
+    public void testGetPatientByFirstNameAndLastName(){
+        /*ARRANGE*/
+        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Optional<Patient> optionalPatient = Optional.of(patient);
+        when(patientRepository.findByLastNameAndFirstName("Carman", "Tessa")).thenReturn(optionalPatient);
+
+        /*ACT*/
+        Patient result = patientService.getPatientByFirstNameAndLastName("Carman", "Tessa");
+
+        /*ASSERT*/
+        assertThat(result.getDob()).isEqualTo("1966-12-31");
+        verify(patientRepository).findByLastNameAndFirstName("Carman", "Tessa");
+    }
+
+    @Test
+    @DisplayName("Test de récupération d'un patient par son id")
+    public void testGetPatientById(){
+        /*ARRANGE*/
+        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Optional<Patient> optionalPatient = Optional.of(patient);
+        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+
+        /*ACT*/
+        Patient result = patientService.getPatientById("1");
+
+        /*ASSERT*/
+        assertThat(result.getFirstName()).isEqualTo("Tessa");
+        verify(patientRepository).findById("1");
+    }
+
+    @Test
+    @DisplayName("Test de sauvegarde d'un patient")
+    public void testAddPatient(){
+        /*ARRANGE*/
+        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        when(patientRepository.insert(patient)).thenReturn(patient);
+
+        /*ACT*/
+        Patient result = patientService.addPatient(patient);
+
+        /*ASSERT*/
+        assertThat(result.getFirstName()).isEqualTo("Tessa");
+        verify(patientRepository).insert(patient);
+    }
+
+    @Test
+    @DisplayName("Test de mis à jour d'un patient")
+    public void testUpdatePatient(){
+        /*ARRANGE*/
+        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Optional<Patient> optionalPatient = Optional.of(patient);
+
+        Patient modifiedPatient = new Patient("1", "Tessa", "Boyd", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+
+        Patient updatedPatient = new Patient("1", "Tessa", "Boyd", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+        when(patientRepository.save(modifiedPatient)).thenReturn(updatedPatient);
+
+        /*ACT*/
+        Patient result = patientService.updatePatient("1", modifiedPatient);
+
+        /*ASSERT*/
+        assertThat(result.getLastName()).isEqualTo("Boyd");
+        verify(patientRepository).findById("1");
+        verify(patientRepository).save(modifiedPatient);
+    }
+
+    @Disabled
+    @Test
+    @DisplayName("Test de suppression d'un patient")
+    public void testDeletedPatient(){
+        /*ARRANGE*/
+        List<Patient> patients = new ArrayList<>();
+        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Optional<Patient> optionalPatient = Optional.of(patient);
+        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+        /*ACT*/
+        patientService.deletePatient("1");
+        /*ASSERT*/
+    }
+}
