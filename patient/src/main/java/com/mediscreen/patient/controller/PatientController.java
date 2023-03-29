@@ -23,7 +23,7 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @GetMapping("/api/patient")
+    @GetMapping("/patient")
     public ResponseEntity<List<Patient>> getPatients() {
         List<Patient> patients = patientService.getPatients();
         if (patients.isEmpty()) {
@@ -35,7 +35,7 @@ public class PatientController {
         }
     }
 
-    @GetMapping("/api/patient/{id}")
+    @GetMapping("/patient/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable("id") String id) {
         try {
             Patient patient = patientService.getPatientById(id);
@@ -47,7 +47,7 @@ public class PatientController {
         }
     }
 
-    @PostMapping("/api/patient/lightPatient")
+    @PostMapping("/patient/lightPatient")
     public ResponseEntity<Patient> getPatientByFirstNameAndLastName(@Valid @RequestBody LightPatient lightPatient) {
         try {
             Patient patient = patientService.getPatientByFirstNameAndLastName(lightPatient.getLastName(), lightPatient.getFirstName());
@@ -59,7 +59,7 @@ public class PatientController {
         }
     }
 
-    @PostMapping("/api/patient")
+    @PostMapping("/patient")
     public ResponseEntity<Patient> addPatient(@Valid @RequestBody Patient patient) {
         Patient addedPatient = patientService.addPatient(patient);
         log.info("patient created");
@@ -71,7 +71,7 @@ public class PatientController {
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping("/api/patient/{id}")
+    @PutMapping("/patient/{id}")
     public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient, @PathVariable String id) {
         try {
             Patient updatedPatient = patientService.updatePatient(id, patient);
@@ -88,7 +88,7 @@ public class PatientController {
         }
     }
 
-    @DeleteMapping("/api/patient/{id}")
+    @DeleteMapping("/patient/{id}")
     public ResponseEntity<Patient> deletePatient(@PathVariable String id) {
         try {
             patientService.deletePatient(id);

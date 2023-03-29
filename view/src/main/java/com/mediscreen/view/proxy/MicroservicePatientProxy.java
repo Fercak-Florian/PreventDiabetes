@@ -14,21 +14,21 @@ public interface MicroservicePatientProxy {
 
     /*SIGNATURES DES METHODES PRESENTES DANS PatientController*/
 
-    @GetMapping("/api/patient")
+    @GetMapping("/patient")
     List<PatientBean> getPatients();
 
-    @GetMapping("/api/patient/{id}")
+    @GetMapping("/patient/{id}")
     PatientBean getPatient(@PathVariable("id") String id);
 
-    @PostMapping("/api/patient/lightPatient")
+    @PostMapping("/patient/lightPatient")
     PatientBean getPatientByFirstNameAndLastName(@RequestBody LightPatientBean lightPatientBean);
 
-    @PostMapping("/api/patient")
+    @PostMapping("/patient")
     PatientBean addPatient(@RequestBody PatientBean patientBean);
 
-    @PutMapping("/api/patient/{id}")
+    @PutMapping("/patient/{id}")
     PatientBean updatePatient(@RequestBody PatientBean patientBean, @PathVariable String id);
 
-    @DeleteMapping("/api/patient/{id}")
+    @DeleteMapping("/patient/{id}")
     PatientBean deletePatient(@PathVariable String id);
 }
