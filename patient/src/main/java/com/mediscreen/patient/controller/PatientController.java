@@ -68,7 +68,7 @@ public class PatientController {
                 .path("/{id}")
                 .buildAndExpand(addedPatient.getId())
                 .toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(addedPatient);
     }
 
     @PutMapping("/patient/{id}")
@@ -81,7 +81,7 @@ public class PatientController {
                     .path("/{id}")
                     .buildAndExpand(updatedPatient.getId())
                     .toUri();
-            return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).body(updatedPatient);
         } catch (Exception e) {
             log.warn("patient not found for this id : " + id);
             return ResponseEntity.notFound().build();
