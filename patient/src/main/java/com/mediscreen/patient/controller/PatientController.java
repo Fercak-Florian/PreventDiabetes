@@ -1,5 +1,6 @@
 package com.mediscreen.patient.controller;
 
+import com.mediscreen.patient.exception.PatientNotFoundException;
 import com.mediscreen.patient.model.Patient;
 import com.mediscreen.patient.service.PatientService;
 import com.mediscreen.patient.utils.LightPatient;
@@ -28,7 +29,7 @@ public class PatientController {
         List<Patient> patients = patientService.getPatients();
         if (patients.isEmpty()) {
             log.warn("patient list is empty");
-            return ResponseEntity.internalServerError().build();
+            throw new PatientNotFoundException("patient list is empty");
         } else {
             log.info("display patient list");
             return ResponseEntity.ok(patients);
@@ -37,25 +38,25 @@ public class PatientController {
 
     @GetMapping("/patient/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable("id") String id) {
-        try {
-            Patient patient = patientService.getPatientById(id);
+        Patient patient = patientService.getPatientById(id);
+        if (patient == null) {
+            log.warn("patient not found for this id : " + id);
+            throw new PatientNotFoundException("patient not found for this id : " + id);
+        } else {
             log.info("providing patient information");
             return ResponseEntity.ok(patient);
-        } catch (Exception e) {
-            log.warn("patient not found for this id : " + id);
-            return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/patient/lightPatient")
     public ResponseEntity<Patient> getPatientByFirstNameAndLastName(@Valid @RequestBody LightPatient lightPatient) {
-        try {
-            Patient patient = patientService.getPatientByFirstNameAndLastName(lightPatient.getLastName(), lightPatient.getFirstName());
+        Patient patient = patientService.getPatientByFirstNameAndLastName(lightPatient.getLastName(), lightPatient.getFirstName());
+        if (patient == null) {
+            log.warn("patient : " + lightPatient.getFirstName() + " " + lightPatient.getLastName() + " is not found");
+            throw new PatientNotFoundException("patient : " + lightPatient.getFirstName() + " " + lightPatient.getLastName() + " is not found");
+        } else {
             log.info("providing patient information");
             return ResponseEntity.ok(patient);
-        } catch (Exception e) {
-            log.warn("patient : " + lightPatient.getFirstName() + " " + lightPatient.getLastName() + " is not found");
-            return ResponseEntity.notFound().build();
         }
     }
 
@@ -73,8 +74,11 @@ public class PatientController {
 
     @PutMapping("/patient/{id}")
     public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient, @PathVariable String id) {
-        try {
-            Patient updatedPatient = patientService.updatePatient(id, patient);
+        Patient updatedPatient = patientService.updatePatient(id, patient);
+        if (updatedPatient == null) {
+            log.warn("patient not found for this id : " + id);
+            throw new PatientNotFoundException("Patient with id " + id + " is not found");
+        } else {
             log.info("patient updated");
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
@@ -82,20 +86,18 @@ public class PatientController {
                     .buildAndExpand(updatedPatient.getId())
                     .toUri();
             return ResponseEntity.created(location).body(updatedPatient);
-        } catch (Exception e) {
-            log.warn("patient not found for this id : " + id);
-            return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/patient/{id}")
     public ResponseEntity<Patient> deletePatient(@PathVariable String id) {
-        try {
-            patientService.deletePatient(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
+        Patient patient = patientService.deletePatient(id);
+        if (patient == null) {
             log.warn("error during deleting patient with id : " + id);
-            return ResponseEntity.notFound().build();
+            throw new PatientNotFoundException("Patient with id " + id + " is not found");
         }
+        log.info("patient with the id " + id + " is deleted");
+        return ResponseEntity.ok(patient);
     }
 }
+
