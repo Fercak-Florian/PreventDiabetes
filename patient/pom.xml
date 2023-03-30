@@ -95,7 +95,7 @@
 						<exclude>com/mediscreen/patient/model/*Patient.class*</exclude>
 						<exclude>com/mediscreen/patient/utils/*LightPatient.class*</exclude>
 						<exclude>com/mediscreen/patient/exception/*PatientNotFoundException.class*</exclude>
-						<exclude>com/mediscreen/patient/PatientRepository/*PatientRepository.class*</exclude>
+						<exclude>com/mediscreen/patient/repository/*PatientRepository.class*</exclude>
 						<exclude>com/mediscreen/patient/*PatientApplication.class*</exclude>
 					</excludes>
 				</configuration>
