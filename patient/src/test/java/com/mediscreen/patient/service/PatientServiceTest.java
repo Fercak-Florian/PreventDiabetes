@@ -1,10 +1,8 @@
 package com.mediscreen.patient.service;
 
-import com.mediscreen.patient.exception.PatientNotFoundException;
 import com.mediscreen.patient.model.Patient;
 import com.mediscreen.patient.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -99,7 +96,7 @@ public class PatientServiceTest {
 
     @Test
     @DisplayName("Echec de la récupération d'un patient par son id")
-    public void testGetPatientByIdReturnNull(){
+    public void testGetPatientByIdReturnNull() {
         /*ARRANGE*/
         Optional<Patient> optionalPatient = Optional.empty();
         when(patientRepository.findById("1")).thenReturn(optionalPatient);
@@ -151,7 +148,7 @@ public class PatientServiceTest {
 
     @Test
     @DisplayName("Echec de mis à jour d'un patient")
-    public void testUpdatePatientReturnNull(){
+    public void testUpdatePatientReturnNull() {
         /*ARRANGE*/
         Optional<Patient> optionalPatient = Optional.empty();
         when(patientRepository.findById("1")).thenReturn(optionalPatient);
@@ -163,7 +160,7 @@ public class PatientServiceTest {
         assertThat(result).isNull();
         verify(patientRepository).findById("1");
     }
-    
+
     @Test
     @DisplayName("Test de suppression d'un patient")
     public void testDeletedPatient() {
@@ -182,7 +179,7 @@ public class PatientServiceTest {
 
     @Test
     @DisplayName("Echec lors de la suppression d'un patient")
-    public void testDeletePatientReturnNull(){
+    public void testDeletePatientReturnNull() {
         /*ARRANGE*/
         Optional<Patient> optionalPatient = Optional.empty();
         when(patientRepository.findById("1")).thenReturn(optionalPatient);
