@@ -20,6 +20,7 @@ public class NoteService {
     }
 
     public List<Note> getNotes() {
+        log.info("providing note list");
         return noteRepository.findAll();
     }
 
@@ -27,7 +28,7 @@ public class NoteService {
         Optional<Note> optionalNote = noteRepository.findById(id);
         if (optionalNote.isEmpty()) {
             log.warn("note with id : " + id + " is not found");
-            throw new NoteNotFoundException("note with id : " + id + " is not found");
+            return null;
         } else {
             log.info("note is found");
             return optionalNote.get();
@@ -42,25 +43,25 @@ public class NoteService {
         Optional<Note> optionalNote = noteRepository.findById(id);
         if(optionalNote.isEmpty()){
             log.warn("note not found for this id : " + id);
-            throw new NoteNotFoundException("note with id : " + id + " is not found");
+            return null;
         } else {
             Note noteToUpdate = optionalNote.get();
             noteToUpdate.setPatientId(note.getPatientId());
             noteToUpdate.setDateOfCreation(note.getDateOfCreation());
             noteToUpdate.setContent(note.getContent());
-            noteRepository.save(noteToUpdate);
-            return noteToUpdate;
+            return noteRepository.save(noteToUpdate);
         }
     }
 
-    public void deleteNote(String id){
+    public Note deleteNote(String id){
         Optional<Note> optionalNote = noteRepository.findById(id);
         if(optionalNote.isEmpty()){
             log.warn("note not found for this id : " + id);
-            throw new NoteNotFoundException("note with id : " + id + " is not found");
+            return null;
         } else {
             noteRepository.deleteById(id);
             log.info("note with the id " + id + " id deleted");
+            return optionalNote.get();
         }
     }
 }
