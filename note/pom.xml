@@ -84,7 +84,7 @@
 					<excludes>
 						<exclude>com/mediscreen/note/model/*Note.class*</exclude>
 						<exclude>com/mediscreen/note/exception/*NoteNotFoundException.class*</exclude>
-						<exclude>com/mediscreen/note/NoteRepository/*NoteRepository.class*</exclude>
+						<exclude>com/mediscreen/note/repository/*NoteRepository.class*</exclude>
 						<exclude>com/mediscreen/note/*NoteApplication.class*</exclude>
 					</excludes>
 				</configuration>
