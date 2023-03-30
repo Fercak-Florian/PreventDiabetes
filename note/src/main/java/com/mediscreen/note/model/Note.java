@@ -8,11 +8,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Data
 @Document(collection = "note")
 public class Note {
+
+    public Note(String patientId, String dateOfCreation, String content){
+        this.patientId = patientId;
+        this.dateOfCreation = dateOfCreation;
+        this.content = content;
+    }
 
     @Id
     private String id;
