@@ -34,6 +34,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -96,6 +101,7 @@
 						<exclude>com/mediscreen/patient/utils/*LightPatient.class*</exclude>
 						<exclude>com/mediscreen/patient/exception/*PatientNotFoundException.class*</exclude>
 						<exclude>com/mediscreen/patient/repository/*PatientRepository.class*</exclude>
+						<exclude>com/mediscreen/patient/configuration/*SwaggerConfig.class*</exclude>
 						<exclude>com/mediscreen/patient/*PatientApplication.class*</exclude>
 					</excludes>
 				</configuration>
