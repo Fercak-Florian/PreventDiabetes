@@ -3,6 +3,7 @@ package com.mediscreen.view.controller;
 import com.mediscreen.view.bean.LightPatientBean;
 import com.mediscreen.view.bean.NoteBean;
 import com.mediscreen.view.bean.PatientBean;
+import com.mediscreen.view.model.Note;
 import com.mediscreen.view.model.Patient;
 import com.mediscreen.view.proxy.MicroserviceNoteProxy;
 import com.mediscreen.view.proxy.MicroservicePatientProxy;
@@ -131,5 +132,33 @@ public class ViewController {
     public String deletePatient(@PathVariable("id") String id) {
         microservicePatientProxy.deletePatient(id);
         return "redirect:/patient/list";
+    }
+
+    /*------------------------ note ------------------------*/
+
+    /*This method displays the form to update a note*/
+    @GetMapping("/note/update/{id}")
+    public String showUpdateForm(@PathVariable String id, Model model){
+        NoteBean noteBean = microserviceNoteProxy.getNote(id);
+        model.addAttribute("note", noteBean);
+        return "note/update";
+    }
+
+    @PostMapping("/note/update/{id}")
+    public String updateNote(@PathVariable String id, @Valid Note note, BindingResult result){
+        if(result.hasErrors()){
+            log.warn("note not updated");
+            log.info("id de pathVariable : " + id);
+            log.info("id de note : " + note.getId());
+            log.info("id de patientId : " + note.getPatientId());
+            log.info("date of creation : " + note.getDateOfCreation());
+            log.info("content of note : " + note.getContent());
+            return "note/update";
+        } else {
+            NoteBean noteBean = new NoteBean(note.getId(), note.getPatientId(), note.getDateOfCreation(), note.getContent());
+            microserviceNoteProxy.updateNote(noteBean, id);
+            log.info("note updated");
+            return "redirect:/note/update/{id}";
+        }
     }
 }
