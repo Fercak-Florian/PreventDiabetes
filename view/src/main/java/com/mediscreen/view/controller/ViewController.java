@@ -1,8 +1,10 @@
 package com.mediscreen.view.controller;
 
 import com.mediscreen.view.bean.LightPatientBean;
+import com.mediscreen.view.bean.NoteBean;
 import com.mediscreen.view.bean.PatientBean;
 import com.mediscreen.view.model.Patient;
+import com.mediscreen.view.proxy.MicroserviceNoteProxy;
 import com.mediscreen.view.proxy.MicroservicePatientProxy;
 import com.mediscreen.view.utils.FormComment;
 import com.mediscreen.view.utils.LightPatient;
@@ -21,10 +23,12 @@ import java.util.List;
 public class ViewController {
 
     private MicroservicePatientProxy microservicePatientProxy;
+    private MicroserviceNoteProxy microserviceNoteProxy;
     private FormComment formComment;
 
-    public ViewController(MicroservicePatientProxy microservicePatientProxy, FormComment formComment){
+    public ViewController(MicroservicePatientProxy microservicePatientProxy, MicroserviceNoteProxy microserviceNoteProxy ,FormComment formComment){
         this.microservicePatientProxy = microservicePatientProxy;
+        this.microserviceNoteProxy = microserviceNoteProxy;
         this.formComment = formComment;
     }
 
@@ -33,6 +37,7 @@ public class ViewController {
         return "home";
     }
 
+    /*------------------------ patient ------------------------*/
     @GetMapping("/patient/list")
     public String getPatients(Model model){
         List<PatientBean> patients = microservicePatientProxy.getPatients();
@@ -63,6 +68,8 @@ public class ViewController {
             try {
                 LightPatientBean lightPatientBean = new LightPatientBean(lightPatient.getFirstName(), lightPatient.getLastName());
                 PatientBean patientBean = microservicePatientProxy.getPatientByFirstNameAndLastName(lightPatientBean);
+                List<NoteBean> notesBeans = microserviceNoteProxy.getNotes();
+                model.addAttribute("notes", notesBeans);
                 model.addAttribute("patient", patientBean);
                 log.info("display patient information");
                 return "get";
@@ -124,5 +131,17 @@ public class ViewController {
     public String deletePatient(@PathVariable("id") String id) {
         microservicePatientProxy.deletePatient(id);
         return "redirect:/patient/list";
+    }
+
+    /*------------------------ note ------------------------*/
+
+    @GetMapping("/note")
+    public String getNotes(){
+        List<NoteBean> notesBeans = microserviceNoteProxy.getNotes();
+        for(NoteBean noteBean : notesBeans){
+            log.info(noteBean.getContent());
+        }
+        log.info("controller des notes");
+        return "home";
     }
 }
