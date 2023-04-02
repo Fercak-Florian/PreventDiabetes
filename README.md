@@ -19,5 +19,5 @@ To run the application, you need to have :
 Go to jar directory and run the following command :
  - java -jar Snapshot
  
- Patient endpoints API documentation : http://localhost:8081/swagger-ui/
+ Patient API documentation : http://localhost:8081/swagger-ui/
 
