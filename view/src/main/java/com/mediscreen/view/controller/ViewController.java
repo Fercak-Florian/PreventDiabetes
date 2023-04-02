@@ -68,7 +68,7 @@ public class ViewController {
             try {
                 LightPatientBean lightPatientBean = new LightPatientBean(lightPatient.getFirstName(), lightPatient.getLastName());
                 PatientBean patientBean = microservicePatientProxy.getPatientByFirstNameAndLastName(lightPatientBean);
-                List<NoteBean> notesBeans = microserviceNoteProxy.getNotes();
+                List<NoteBean> notesBeans = microserviceNoteProxy.getNotesByPatientId(patientBean.getId());
                 model.addAttribute("notes", notesBeans);
                 model.addAttribute("patient", patientBean);
                 log.info("display patient information");
@@ -131,17 +131,5 @@ public class ViewController {
     public String deletePatient(@PathVariable("id") String id) {
         microservicePatientProxy.deletePatient(id);
         return "redirect:/patient/list";
-    }
-
-    /*------------------------ note ------------------------*/
-
-    @GetMapping("/note")
-    public String getNotes(){
-        List<NoteBean> notesBeans = microserviceNoteProxy.getNotes();
-        for(NoteBean noteBean : notesBeans){
-            log.info(noteBean.getContent());
-        }
-        log.info("controller des notes");
-        return "home";
     }
 }
