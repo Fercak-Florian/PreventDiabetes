@@ -35,6 +35,11 @@ public class NoteService {
         }
     }
 
+    public List<Note> getNotesByPatientId(String id){
+        log.info("providing patient note list");
+        return noteRepository.findByPatientId(id);
+    }
+
     public Note addNote(Note note) {
         return noteRepository.insert(note);
     }
