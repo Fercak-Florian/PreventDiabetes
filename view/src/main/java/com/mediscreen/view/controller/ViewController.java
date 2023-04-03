@@ -191,4 +191,12 @@ public class ViewController {
             return "redirect:/patient/" + note.getPatientId();
         }
     }
+
+    /*This method is called when DELETE link is clicked*/
+    @GetMapping("note/delete/{id}")
+    public String deleteNote(@PathVariable String id){
+        NoteBean noteBean = microserviceNoteProxy.deleteNote(id);
+        log.info("note deleted");
+        return "redirect:/patient/" + noteBean.getPatientId();
+    }
 }
