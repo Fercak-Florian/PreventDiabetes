@@ -108,6 +108,40 @@ public class NoteControllerTest {
     }
 
     @Test
+    @DisplayName("Test de la recuperation des notes par patientId")
+    public void testGetNotesByPatientId() throws Exception{
+        /*ARRANGE*/
+        String id ="1";
+        Note note = new Note("1", "2023-30-03", "content test");
+        List<Note> notes = new ArrayList<>();
+        notes.add(note);
+        when(noteService.getNotesByPatientId(id)).thenReturn(notes);
+
+        /*ACT AND ASSERT*/
+        mockMvc.perform(get("/note/patientId/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("[0].content", is("content test")));
+        verify(noteService).getNotesByPatientId(id);
+    }
+
+    @Test
+    @DisplayName("Echec de la recuperation des notes par patientId")
+    public void testGetNotesByPatientIdThrowsNoteNotFoundException() throws Exception{
+        /*ARRANGE*/
+        String id = "1";
+        List<Note> notes = new ArrayList<>();
+        when(noteService.getNotesByPatientId(id)).thenReturn(notes);
+        /*ACT AND ASSERT*/
+
+        mockMvc.perform(get("/note/patientId/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertThat(result.getResolvedException() instanceof NoteNotFoundException))
+                .andExpect(result -> assertThat(result.getResolvedException().getMessage()).isEqualTo("patient note list is empty"));
+        verify(noteService).getNotesByPatientId(id);
+    }
+
+    @Test
     @DisplayName("Test de la sauvegarde d'une note")
     public void testAddNote() throws Exception{
         /*ARRANGE*/

@@ -26,16 +26,16 @@ public class NoteServiceTest {
     private NoteRepository noteRepository;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         noteService = new NoteService(noteRepository);
     }
 
     @Test
     @DisplayName("Test de la récupération de toutes les notes")
-    public void testGetNotes(){
+    public void testGetNotes() {
         /*ARRANGE*/
         Note note = new Note("1", "2023-30-03", "content test");
-        List<Note> notes= new ArrayList<>();
+        List<Note> notes = new ArrayList<>();
         notes.add(note);
         when(noteRepository.findAll()).thenReturn(notes);
 
@@ -49,7 +49,7 @@ public class NoteServiceTest {
 
     @Test
     @DisplayName("Test de la récupération d'une note")
-    public void testGetNote(){
+    public void testGetNote() {
         /*ARRANGE*/
         String id = "1";
         Note note = new Note("1", "2023-30-03", "content test");
@@ -66,7 +66,7 @@ public class NoteServiceTest {
 
     @Test
     @DisplayName("Echec de la récupération d'un note")
-    public void testGetNoteReturnNull(){
+    public void testGetNoteReturnNull() {
         /*ARRANGE*/
         String id = "1";
         Optional optionalNote = Optional.empty();
@@ -81,8 +81,26 @@ public class NoteServiceTest {
     }
 
     @Test
+    @DisplayName("Test de la recuperation des notes par patientId")
+    public void testGetNotesByPatientId() {
+        /*ARRANGE*/
+        String id = "1";
+        Note note = new Note("1", "2023-30-03", "content test");
+        List<Note> notes = new ArrayList<>();
+        notes.add(note);
+        when(noteRepository.findByPatientId(id)).thenReturn(notes);
+
+        /*ACT*/
+        List<Note> result = noteService.getNotesByPatientId(id);
+
+        /*ASSERT*/
+        assertThat(result.get(0).getContent()).isEqualTo("content test");
+        verify(noteRepository).findByPatientId(id);
+    }
+
+    @Test
     @DisplayName("Test de la sauvegarde d'une note")
-    public void testAddNote(){
+    public void testAddNote() {
         /*ARRANGE*/
         Note addedNote = new Note("1", "2023-30-03", "content test");
         when(noteRepository.insert(addedNote)).thenReturn(addedNote);
@@ -97,7 +115,7 @@ public class NoteServiceTest {
 
     @Test
     @DisplayName("Test de la mise à jour d'une note")
-    public void testUpdateNote(){
+    public void testUpdateNote() {
         /*ARRANGE*/
         String id = "1";
         Note note = new Note("1", "2023-30-03", "content test");
@@ -117,7 +135,7 @@ public class NoteServiceTest {
 
     @Test
     @DisplayName("Echec de la mise à jour d'une note")
-    public void testUpdateNoteReturnNull(){
+    public void testUpdateNoteReturnNull() {
         /*ARRANGE*/
         String id = "1";
         Optional<Note> optionalNote = Optional.empty();
@@ -125,7 +143,7 @@ public class NoteServiceTest {
         when(noteRepository.findById(id)).thenReturn(optionalNote);
 
         /*ACT*/
-        Note result = noteService.updateNote(id,note);
+        Note result = noteService.updateNote(id, note);
 
         /*ASSERT*/
         assertThat(result).isNull();
@@ -134,7 +152,7 @@ public class NoteServiceTest {
 
     @Test
     @DisplayName("Test de la suppression d'une note")
-    public void testDeleteNote(){
+    public void testDeleteNote() {
         /*ARRANGE*/
         String id = "1";
         Note note = new Note("1", "2023-30-03", "content test");
@@ -151,7 +169,7 @@ public class NoteServiceTest {
 
     @Test
     @DisplayName("Echec de la suppression d'une note")
-    public void testDeleteNoteReturnNull(){
+    public void testDeleteNoteReturnNull() {
         /*ARRANGE*/
         String id = "1";
         Optional<Note> optionalNote = Optional.empty();
