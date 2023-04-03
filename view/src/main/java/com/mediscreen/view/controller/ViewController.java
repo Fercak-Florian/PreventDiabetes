@@ -16,9 +16,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
+
 @Slf4j
 @Controller
 public class ViewController {
@@ -27,20 +29,20 @@ public class ViewController {
     private MicroserviceNoteProxy microserviceNoteProxy;
     private FormComment formComment;
 
-    public ViewController(MicroservicePatientProxy microservicePatientProxy, MicroserviceNoteProxy microserviceNoteProxy ,FormComment formComment){
+    public ViewController(MicroservicePatientProxy microservicePatientProxy, MicroserviceNoteProxy microserviceNoteProxy, FormComment formComment) {
         this.microservicePatientProxy = microservicePatientProxy;
         this.microserviceNoteProxy = microserviceNoteProxy;
         this.formComment = formComment;
     }
 
     @GetMapping("/")
-    public String home(){
+    public String home() {
         return "home";
     }
 
     /*------------------------ patient ------------------------*/
     @GetMapping("/patient/list")
-    public String getPatients(Model model){
+    public String getPatients(Model model) {
         List<PatientBean> patients = microservicePatientProxy.getPatients();
         model.addAttribute("patients", patients);
         log.info("display patient list");
@@ -56,6 +58,16 @@ public class ViewController {
         model.addAttribute("formComment", formComment);
         log.info("display patient information");
         return "search";
+    }
+
+    @GetMapping("/patient/{id}")
+    public String showPatientInformation(@PathVariable String id, Model model) {
+            PatientBean patientBean = microservicePatientProxy.getPatient(id);
+            List<NoteBean> notesBeans = microserviceNoteProxy.getNotesByPatientId(id);
+            model.addAttribute("notes", notesBeans);
+            model.addAttribute("patient", patientBean);
+            log.info("display patient information");
+            return "get";
     }
 
     /*This method is activated when submit POST Search Patient Button*/
@@ -138,15 +150,15 @@ public class ViewController {
 
     /*This method displays the form to update a note*/
     @GetMapping("/note/update/{id}")
-    public String showUpdateForm(@PathVariable String id, Model model){
+    public String showUpdateForm(@PathVariable String id, Model model) {
         NoteBean noteBean = microserviceNoteProxy.getNote(id);
         model.addAttribute("note", noteBean);
         return "note/update";
     }
 
     @PostMapping("/note/update/{id}")
-    public String updateNote(@PathVariable String id, @Valid Note note, BindingResult result){
-        if(result.hasErrors()){
+    public String updateNote(@PathVariable String id, @Valid Note note, BindingResult result) {
+        if (result.hasErrors()) {
             log.warn("note not updated");
             return "note/update";
         } else {
@@ -169,7 +181,7 @@ public class ViewController {
     /*This method is called when SUBMIT Add Note button is clicked*/
     @PostMapping("/note/add")
     public String addNote(@Valid Note note, BindingResult result) {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             log.warn("error in user input");
             return "note/add";
         } else {
