@@ -165,7 +165,7 @@ public class ViewController {
             NoteBean noteBean = new NoteBean(note.getId(), note.getPatientId(), note.getDateOfCreation(), note.getContent());
             microserviceNoteProxy.updateNote(noteBean, id);
             log.info("note updated");
-            return "redirect:/note/update/{id}";
+            return "redirect:/patient/" + note.getPatientId();
         }
     }
 
@@ -188,7 +188,7 @@ public class ViewController {
             NoteBean noteBean = new NoteBean(note.getId(), note.getPatientId(), note.getDateOfCreation(), note.getContent());
             microserviceNoteProxy.addNote(noteBean);
             log.info("note added");
-            return "home";
+            return "redirect:/patient/" + note.getPatientId();
         }
     }
 }
