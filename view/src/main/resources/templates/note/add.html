@@ -1,10 +1,9 @@
 <!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Update Note</title>
+    <title>Add note</title>
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 <body>
@@ -17,28 +16,25 @@
             <a href="/patient/list">View Patient List</a>
         </div>
     </div>
-    <h1>Update Note</h1>
     <div class="row">
-        <form action="#" th:action="@{/note/update/{id}(id=${note.id})}"
-              th:object="${note}"
-              method="post"
-              class="form-horizontal" style="width: 100%">
-            <div class="form-group">
+        <h2>Add New Note</h2>
+    </div>
+
+    <div class="row">
+        <form th:action="@{/note/add}" th:object="${note}" method="post" class="form-horizontal"
+              style="width: 100%">
+            <div hidden class="form-group">
                 <label for="patientId" class="col-sm-2 control-label">Patient Id</label>
                 <div class="col-sm-10">
-                    <input type="text" id="patientId" th:field="*{patientId}"
-                           th:value="${note.patientId}">
-                    <p class="text-danger" th:if="${#fields.hasErrors('patientId')}" th:errors="*{patientId}">
-                    </p>
+                    <input type="text" id="patientId" th:name="patientId" th:value="${patientId}">
+                    <p class="text-danger" th:if="${#fields.hasErrors('patientId')}" th:errors="*{patientId}"></p>
                 </div>
             </div>
             <div class="form-group">
                 <label for="dateOfCreation" class="col-sm-2 control-label">Date Of Creation</label>
                 <div class="col-sm-10">
-                    <input type="text" id="dateOfCreation" th:field="*{dateOfCreation}"
-                           th:value="${note.dateOfCreation}">
-                    <p class="text-danger" th:if="${#fields.hasErrors('dateOfCreation')}" th:errors="*{dateOfCreation}">
-                    </p>
+                    <input type="text" id="dateOfCreation" th:field="*{dateOfCreation}" placeholder="Date Of Creation">
+                    <p class="text-danger" th:if="${#fields.hasErrors('dateOfCreation')}" th:errors="*{dateOfCreation}"></p>
                 </div>
             </div>
             <div class="form-group">
@@ -55,7 +51,7 @@
                     <button type="submit" class="btn btn-danger btn-sm" formmethod="get"
                             formaction="/">Cancel
                     </button>
-                    <button type="submit" class="btn btn-primary btn-sm" formmethod="post">Update Note
+                    <button type="submit" class="btn btn-primary btn-sm" formmethod="post">Add Note
                     </button>
                 </div>
             </div>
