@@ -148,17 +148,35 @@ public class ViewController {
     public String updateNote(@PathVariable String id, @Valid Note note, BindingResult result){
         if(result.hasErrors()){
             log.warn("note not updated");
-            log.info("id de pathVariable : " + id);
-            log.info("id de note : " + note.getId());
-            log.info("id de patientId : " + note.getPatientId());
-            log.info("date of creation : " + note.getDateOfCreation());
-            log.info("content of note : " + note.getContent());
             return "note/update";
         } else {
             NoteBean noteBean = new NoteBean(note.getId(), note.getPatientId(), note.getDateOfCreation(), note.getContent());
             microserviceNoteProxy.updateNote(noteBean, id);
             log.info("note updated");
             return "redirect:/note/update/{id}";
+        }
+    }
+
+    /*This method only display the form to add a note*/
+    @GetMapping("/note/add/{id}")
+    public String showAddNoteForm(Model model, @PathVariable String id) {
+        model.addAttribute("note", new Note());
+        model.addAttribute("patientId", id);
+        log.info("display form to add a note");
+        return "note/add";
+    }
+
+    /*This method is called when SUBMIT Add Note button is clicked*/
+    @PostMapping("/note/add")
+    public String addNote(@Valid Note note, BindingResult result) {
+        if(result.hasErrors()){
+            log.warn("error in user input");
+            return "note/add";
+        } else {
+            NoteBean noteBean = new NoteBean(note.getId(), note.getPatientId(), note.getDateOfCreation(), note.getContent());
+            microserviceNoteProxy.addNote(noteBean);
+            log.info("note added");
+            return "home";
         }
     }
 }
