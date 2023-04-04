@@ -135,7 +135,7 @@ public class ViewController {
         } else {
             PatientBean patientBean = new PatientBean(patient.getId(), patient.getFirstName(), patient.getLastName(), patient.getFamily(), patient.getGiven(), patient.getDob(), patient.getSex(), patient.getAddress(), patient.getPhone());
             microservicePatientProxy.updatePatient(patientBean, id);
-            return "redirect:/patient/list";
+            return "redirect:/patient/" + patient.getId();
         }
     }
 
