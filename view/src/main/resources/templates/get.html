@@ -17,68 +17,76 @@
             <a href="/patient/list">View Patient List</a>
         </div>
     </div>
-    <div class="row">
-        <h2>Patient :</h2>
+
+    <!-- gestion si id patient corrompu -->
+    <div class="text-danger" th:if="${idProblem}">
+        <label>No patient with this id</label>
     </div>
-    <div class="row">
-        <!-- Tableau du patient -->
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>LastName</th>
-                <th>FirstName</th>
-                <th>Family</th>
-                <th>Given</th>
-                <th>Date of Birth</th>
-                <th>Sex</th>
-                <th>Address</th>
-                <th>Phone</th>
-            </tr>
-            </thead>
-            <tbody>
-            <td th:text="${patient.lastName}"></td>
-            <td th:text="${patient.firstName}"></td>
-            <td th:text="${patient.family}"></td>
-            <td th:text="${patient.given}"></td>
-            <td th:text="${patient.dob}"></td>
-            <td th:text="${patient.sex}"></td>
-            <td th:text="${patient.address}"></td>
-            <td th:text="${patient.phone}"></td>
-            <td><a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
-                <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a>
-            </td>
-            </tbody>
 
-        </table>
-
-        <h4>Notes :</h4>
-
-        <!-- Tableau des notes -->
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Patient Id</th>
-                <th>Date of Creation</th>
-                <th>Content</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${notes.empty}">
-                <td colspan="3">This patient has no note</td>
-            </tr>
-            <tr th:each="note: ${notes}">
-                <td th:text="${note.patientId}"></td>
-                <td th:text="${note.dateOfCreation}"></td>
-                <td th:text="${note.content}"></td>
-                <td><a th:href="@{/note/update/{id}(id=${note.id})}">Edit</a>&nbsp;|&nbsp;
-                    <a th:href="@{/note/delete/{id}(id=${note.id})}">Delete</a>
+    <div th:unless="${idProblem}">
+        <div class="row">
+            <h2>Patient :</h2>
+        </div>
+        <div class="row">
+            <!-- Tableau du patient -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>LastName</th>
+                    <th>FirstName</th>
+                    <th>Family</th>
+                    <th>Given</th>
+                    <th>Date of Birth</th>
+                    <th>Sex</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                <td th:text="${patient.lastName}"></td>
+                <td th:text="${patient.firstName}"></td>
+                <td th:text="${patient.family}"></td>
+                <td th:text="${patient.given}"></td>
+                <td th:text="${patient.dob}"></td>
+                <td th:text="${patient.sex}"></td>
+                <td th:text="${patient.address}"></td>
+                <td th:text="${patient.phone}"></td>
+                <td><a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
+                    <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a>
                 </td>
-            </tr>
-            </tbody>
-        </table>
+                </tbody>
 
-        <a th:href="@{/note/add/{id}(id=${patient.id})}">Add Note</a>
+            </table>
 
+            <h4>Notes :</h4>
+
+            <!-- Tableau des notes -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Patient Id</th>
+                    <th>Date of Creation</th>
+                    <th>Content</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${notes.empty}">
+                    <td colspan="3">This patient has no note</td>
+                </tr>
+                <tr th:each="note: ${notes}">
+                    <td th:text="${note.patientId}"></td>
+                    <td th:text="${note.dateOfCreation}"></td>
+                    <td th:text="${note.content}"></td>
+                    <td><a th:href="@{/note/update/{id}(id=${note.id})}">Edit</a>&nbsp;|&nbsp;
+                        <a th:href="@{/note/delete/{id}(id=${note.id})}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <a th:href="@{/note/add/{id}(id=${patient.id})}">Add Note</a>
+
+        </div>
     </div>
 </div>
 </body>

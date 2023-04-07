@@ -3,6 +3,8 @@ package com.mediscreen.view.controller;
 import com.mediscreen.view.bean.LightPatientBean;
 import com.mediscreen.view.bean.NoteBean;
 import com.mediscreen.view.bean.PatientBean;
+import com.mediscreen.view.exception.NoteNotFoundException;
+import com.mediscreen.view.exception.PatientNotFoundException;
 import com.mediscreen.view.model.Note;
 import com.mediscreen.view.model.Patient;
 import com.mediscreen.view.proxy.MicroserviceNoteProxy;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -62,17 +65,49 @@ public class ViewController {
 
     @GetMapping("/patient/{id}")
     public String showPatientInformation(@PathVariable String id, Model model) {
-            PatientBean patientBean = microservicePatientProxy.getPatient(id);
-            List<NoteBean> notesBeans = microserviceNoteProxy.getNotesByPatientId(id);
-            model.addAttribute("notes", notesBeans);
+        PatientBean patientBean = new PatientBean();
+        List<NoteBean> notesBeans;
+        Boolean idProblem = false;
+
+        try {
+            patientBean = microservicePatientProxy.getPatient(id);
+        } catch (PatientNotFoundException e){
+            log.warn("patient does not exist");
+            patientBean = null;
+        }
+
+        try {
+            notesBeans = microserviceNoteProxy.getNotesByPatientId(id);
+        } catch (NoteNotFoundException e) {
+            notesBeans = null;
+        }
+
+        if (patientBean == null) {
+            log.warn("patient does not exist");
+            /*gerer le cas d'un id corrompu*/
+            idProblem = true;
+            model.addAttribute("idProblem", idProblem);
+            return "get";
+        } else
+            model.addAttribute("idProblem", idProblem);
             model.addAttribute("patient", patientBean);
+
+        if (notesBeans != null) {
+            model.addAttribute("notes", notesBeans);
             log.info("display patient information");
             return "get";
+        } else {
+            log.warn("note list is empty");
+            model.addAttribute("notes", new ArrayList<>());
+            return "get";
+        }
     }
 
     /*This method is activated when submit POST Search Patient Button*/
     @PostMapping("/patient/get")
     public String getPatient(@Valid LightPatient lightPatient, BindingResult result, Model model) {
+        PatientBean patientBean = new PatientBean();
+        List<NoteBean> notesBeans = new ArrayList<>();
         if (result.hasErrors()) {
             model.addAttribute("formComment", formComment);
             log.warn("error in user input");
@@ -80,12 +115,8 @@ public class ViewController {
         } else {
             try {
                 LightPatientBean lightPatientBean = new LightPatientBean(lightPatient.getFirstName(), lightPatient.getLastName());
-                PatientBean patientBean = microservicePatientProxy.getPatientByFirstNameAndLastName(lightPatientBean);
-                List<NoteBean> notesBeans = microserviceNoteProxy.getNotesByPatientId(patientBean.getId());
-                model.addAttribute("notes", notesBeans);
-                model.addAttribute("patient", patientBean);
-                log.info("display patient information");
-                return "get";
+                patientBean = microservicePatientProxy.getPatientByFirstNameAndLastName(lightPatientBean);
+                return "redirect:/patient/" + patientBean.getId();
             } catch (Exception e) {
                 log.warn("patient does not exist");
                 formComment.setError(true);
@@ -194,7 +225,7 @@ public class ViewController {
 
     /*This method is called when DELETE link is clicked*/
     @GetMapping("note/delete/{id}")
-    public String deleteNote(@PathVariable String id){
+    public String deleteNote(@PathVariable String id) {
         NoteBean noteBean = microserviceNoteProxy.deleteNote(id);
         log.info("note deleted");
         return "redirect:/patient/" + noteBean.getPatientId();
