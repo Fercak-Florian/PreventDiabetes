@@ -3,12 +3,14 @@ package com.mediscreen.view.controller;
 import com.mediscreen.view.bean.LightPatientBean;
 import com.mediscreen.view.bean.NoteBean;
 import com.mediscreen.view.bean.PatientBean;
+import com.mediscreen.view.bean.ReportBean;
 import com.mediscreen.view.exception.NoteNotFoundException;
 import com.mediscreen.view.exception.PatientNotFoundException;
 import com.mediscreen.view.model.Note;
 import com.mediscreen.view.model.Patient;
 import com.mediscreen.view.proxy.MicroserviceNoteProxy;
 import com.mediscreen.view.proxy.MicroservicePatientProxy;
+import com.mediscreen.view.proxy.MicroserviceReportProxy;
 import com.mediscreen.view.utils.FormComment;
 import com.mediscreen.view.utils.LightPatient;
 import lombok.extern.slf4j.Slf4j;
@@ -30,11 +32,14 @@ public class ViewController {
 
     private MicroservicePatientProxy microservicePatientProxy;
     private MicroserviceNoteProxy microserviceNoteProxy;
+
+    private MicroserviceReportProxy microserviceReportProxy;
     private FormComment formComment;
 
-    public ViewController(MicroservicePatientProxy microservicePatientProxy, MicroserviceNoteProxy microserviceNoteProxy, FormComment formComment) {
+    public ViewController(MicroservicePatientProxy microservicePatientProxy, MicroserviceNoteProxy microserviceNoteProxy, MicroserviceReportProxy microserviceReportProxy, FormComment formComment) {
         this.microservicePatientProxy = microservicePatientProxy;
         this.microserviceNoteProxy = microserviceNoteProxy;
+        this.microserviceReportProxy = microserviceReportProxy;
         this.formComment = formComment;
     }
 
@@ -229,5 +234,14 @@ public class ViewController {
         NoteBean noteBean = microserviceNoteProxy.deleteNote(id);
         log.info("note deleted");
         return "redirect:/patient/" + noteBean.getPatientId();
+    }
+
+    /*------------------------ report ------------------------*/
+
+    @GetMapping("report")
+    public String displayReport(Model model){
+        ReportBean reportBean = microserviceReportProxy.getReport();
+        model.addAttribute("report", reportBean);
+        return "report/report";
     }
 }
