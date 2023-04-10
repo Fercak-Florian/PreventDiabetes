@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Report</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+
+<p th:text="${report.patientBean.firstName}"></p>
+<p th:text="${report.patientBean.lastName}"></p>
+<p th:text="${report.patientBean.family}"></p>
+<p th:text="${report.patientBean.given}"></p>
+<p th:text="${report.patientBean.dob}"></p>
+<p th:text="${report.patientBean.sex}"></p>
+<p th:text="${report.patientBean.address}"></p>
+<p th:text="${report.patientBean.phone}"></p>
+<p th:text="${report.riskLevel}"></p>
+
+</body>
+</html>
