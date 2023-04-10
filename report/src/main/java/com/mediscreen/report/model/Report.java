@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Report {
-    private PatientBean patientBean;
+    private String lastName;
+    private String firstName;
+    private int age;
     private String riskLevel;
 }

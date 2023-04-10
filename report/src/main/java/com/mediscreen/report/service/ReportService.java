@@ -7,9 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportService {
     public Report initReport(){
-        PatientBean patientBean = new PatientBean("1", "z", "z", "family", "given", "now", "M", "2 rue du test", "222");
         String riskLevel = "Test Level";
-        Report report = new Report(patientBean, riskLevel);
+        Report report = new Report("Boyd", "Jacob", 40, riskLevel);
         return report;
     }
 }
