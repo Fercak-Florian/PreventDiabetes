@@ -238,9 +238,9 @@ public class ViewController {
 
     /*------------------------ report ------------------------*/
 
-    @GetMapping("report")
-    public String displayReport(Model model) {
-        ReportBean reportBean = microserviceReportProxy.getReport();
+    @GetMapping("report/{id}")
+    public String displayReport(@PathVariable String id, Model model) {
+        ReportBean reportBean = microserviceReportProxy.getReport(id);
         model.addAttribute("report", reportBean);
         return "report/report";
     }
