@@ -1,8 +1,11 @@
 package com.mediscreen.report.service;
 
 import com.mediscreen.report.bean.NoteBean;
+import com.mediscreen.report.bean.PatientBean;
 import com.mediscreen.report.model.Report;
 import com.mediscreen.report.proxy.MicroserviceNoteProxy;
+import com.mediscreen.report.proxy.MicroservicePatientProxy;
+import com.mediscreen.report.utils.AgeCalculate;
 import com.mediscreen.report.utils.NoteParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,32 +19,40 @@ public class ReportService {
 
     private NoteParser noteParser;
 
+    private AgeCalculate ageCalculate;
+
     private MicroserviceNoteProxy microserviceNoteProxy;
 
-    public ReportService(NoteParser noteParser, MicroserviceNoteProxy microserviceNoteProxy) {
+    private MicroservicePatientProxy microservicePatientProxy;
+
+    public ReportService(NoteParser noteParser, AgeCalculate ageCalculate, MicroserviceNoteProxy microserviceNoteProxy, MicroservicePatientProxy microservicePatientProxy) {
         this.noteParser = noteParser;
+        this.ageCalculate = ageCalculate;
         this.microserviceNoteProxy = microserviceNoteProxy;
+        this.microservicePatientProxy = microservicePatientProxy;
     }
 
     public Report initReport() {
         String riskLevel = "Test Level";
-        Report report = new Report("Boyd", "Jacob", 40, riskLevel);
-
-        /*-------------- testing if noteParser.count is working --------------*/
+//        Report fakeReport = new Report("Boyd", "Jacob", 40, riskLevel);
 
 
-//        String note = "Taille Poids Fumeur TriggerOne TriggerTwo TriggerThree";
-//        int result = noteParser.count(note);
-//        if (result == 3) {
-//            log.info("il y a bien " + result + " declencheurs");
-//        }
-//        return report;
+        /*--------- récupération du patient ---------*/
+        PatientBean patientBean;
+        try {
+            patientBean = microservicePatientProxy.getPatientById("64355898701db7761b367706");
+        } catch (Exception e){
+            patientBean = null;
+            log.warn("error during retreiving patient");
+        }
+
 
         /*--------- récupération des notes ---------*/
         List<NoteBean> notesBeans = new ArrayList<>();
         try {
             notesBeans = microserviceNoteProxy.getNotesByPatientId("64355898701db7761b367706");
         } catch (Exception e) {
+            notesBeans = null;
             log.warn("error during retreiving notes");
         }
 
@@ -55,6 +66,6 @@ public class ReportService {
 
         }
         log.info("nombre de declencheurs : " + numberOfTriggers);
-        return report;
+        return new Report(patientBean.getLastName(), patientBean.getFirstName(), ageCalculate.calculate(patientBean.getDob()), riskLevel);
     }
 }
