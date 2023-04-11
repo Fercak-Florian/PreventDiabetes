@@ -40,7 +40,7 @@ public class ReportService {
         /*--------- récupération des notes ---------*/
         List<NoteBean> notesBeans = new ArrayList<>();
         try {
-            notesBeans = microserviceNoteProxy.getNotesByPatientId("6414bfae21e6ed573c1030f6");
+            notesBeans = microserviceNoteProxy.getNotesByPatientId("64355898701db7761b367706");
         } catch (Exception e) {
             log.warn("error during retreiving notes");
         }
