@@ -32,7 +32,7 @@ public class ReportService {
         this.microservicePatientProxy = microservicePatientProxy;
     }
 
-    public Report initReport() {
+    public Report getReport(String id) {
         String riskLevel = "Test Level";
 //        Report fakeReport = new Report("Boyd", "Jacob", 40, riskLevel);
 
@@ -40,7 +40,7 @@ public class ReportService {
         /*--------- récupération du patient ---------*/
         PatientBean patientBean;
         try {
-            patientBean = microservicePatientProxy.getPatientById("64355898701db7761b367706");
+            patientBean = microservicePatientProxy.getPatientById(id);
         } catch (Exception e){
             patientBean = null;
             log.warn("error during retreiving patient");
@@ -50,7 +50,7 @@ public class ReportService {
         /*--------- récupération des notes ---------*/
         List<NoteBean> notesBeans = new ArrayList<>();
         try {
-            notesBeans = microserviceNoteProxy.getNotesByPatientId("64355898701db7761b367706");
+            notesBeans = microserviceNoteProxy.getNotesByPatientId(id);
         } catch (Exception e) {
             notesBeans = null;
             log.warn("error during retreiving notes");
