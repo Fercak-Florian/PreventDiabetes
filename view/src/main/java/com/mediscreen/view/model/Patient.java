@@ -1,6 +1,5 @@
 package com.mediscreen.view.model;
 
-/*import org.springframework.data.annotation.Id;*/
 
 import lombok.Data;
 
@@ -8,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class Patient {
-    /*@Id*/
+
     private String id;
     @NotBlank(message = "FirstName is mandatory")
     private String lastName;
