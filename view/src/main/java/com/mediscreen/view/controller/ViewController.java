@@ -76,7 +76,7 @@ public class ViewController {
 
         try {
             patientBean = microservicePatientProxy.getPatient(id);
-        } catch (PatientNotFoundException e){
+        } catch (PatientNotFoundException e) {
             log.warn("patient does not exist");
             patientBean = null;
         }
@@ -95,7 +95,7 @@ public class ViewController {
             return "get";
         } else
             model.addAttribute("idProblem", idProblem);
-            model.addAttribute("patient", patientBean);
+        model.addAttribute("patient", patientBean);
 
         if (notesBeans != null) {
             model.addAttribute("notes", notesBeans);
@@ -147,7 +147,7 @@ public class ViewController {
             log.warn("patient not saved");
             return "add";
         } else {
-            PatientBean patientBean = new PatientBean(patient.getId(), patient.getFirstName(), patient.getLastName(), patient.getFamily(), patient.getGiven(), patient.getDob(), patient.getSex(), patient.getAddress(), patient.getPhone());
+            PatientBean patientBean = new PatientBean(patient.getId(), patient.getLastName(), patient.getFirstName(), patient.getDob(), patient.getSex(), patient.getAddress(), patient.getPhone());
             microservicePatientProxy.addPatient(patientBean);
             log.info("patient saved");
             return "redirect:/patient/list";
@@ -169,7 +169,7 @@ public class ViewController {
             log.warn("patient not updated");
             return "update";
         } else {
-            PatientBean patientBean = new PatientBean(patient.getId(), patient.getFirstName(), patient.getLastName(), patient.getFamily(), patient.getGiven(), patient.getDob(), patient.getSex(), patient.getAddress(), patient.getPhone());
+            PatientBean patientBean = new PatientBean(patient.getId(), patient.getLastName(), patient.getFirstName(), patient.getDob(), patient.getSex(), patient.getAddress(), patient.getPhone());
             microservicePatientProxy.updatePatient(patientBean, id);
             return "redirect:/patient/" + patient.getId();
         }
@@ -239,7 +239,7 @@ public class ViewController {
     /*------------------------ report ------------------------*/
 
     @GetMapping("report")
-    public String displayReport(Model model){
+    public String displayReport(Model model) {
         ReportBean reportBean = microserviceReportProxy.getReport();
         model.addAttribute("report", reportBean);
         return "report/report";

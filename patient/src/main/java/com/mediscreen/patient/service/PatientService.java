@@ -1,6 +1,5 @@
 package com.mediscreen.patient.service;
 
-import com.mediscreen.patient.exception.PatientNotFoundException;
 import com.mediscreen.patient.model.Patient;
 import com.mediscreen.patient.repository.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -57,10 +56,8 @@ public class PatientService {
             return null;
         } else {
             Patient patientToUpdate = optionalPatient.get();
-            patientToUpdate.setFirstName(patient.getFirstName());
             patientToUpdate.setLastName(patient.getLastName());
-            patientToUpdate.setFamily(patient.getFamily());
-            patientToUpdate.setGiven(patient.getGiven());
+            patientToUpdate.setFirstName(patient.getFirstName());
             patientToUpdate.setDob(patient.getDob());
             patientToUpdate.setSex(patient.getSex());
             patientToUpdate.setAddress(patient.getAddress());

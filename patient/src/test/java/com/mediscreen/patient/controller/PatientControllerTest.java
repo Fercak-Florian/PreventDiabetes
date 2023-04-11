@@ -1,6 +1,5 @@
 package com.mediscreen.patient.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mediscreen.patient.exception.PatientNotFoundException;
 import com.mediscreen.patient.model.Patient;
@@ -24,7 +23,8 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -50,7 +50,7 @@ public class PatientControllerTest {
     @DisplayName("Test de récupération de tous les patients")
     public void testGetPatients() throws Exception {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         List<Patient> patientList = new ArrayList<>();
         patientList.add(patient);
         when(patientService.getPatients()).thenReturn(patientList);
@@ -82,7 +82,7 @@ public class PatientControllerTest {
     @DisplayName("Test de récupération d'un patient par son id")
     public void testGetPatientById() throws Exception {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         String id = "1";
         when(patientService.getPatientById(id)).thenReturn(patient);
 
@@ -113,7 +113,7 @@ public class PatientControllerTest {
     @DisplayName("Test de la récupération d'un patient par son nom et prénom")
     public void testGetPatientByFirstNameAndLastName() throws Exception {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         ObjectMapper objectMapper = new ObjectMapper();
         when(patientService.getPatientByFirstNameAndLastName("Carman", "Tessa")).thenReturn(patient);
 
@@ -144,9 +144,9 @@ public class PatientControllerTest {
 
     @Test
     @DisplayName("Test de la sauvegarde d'un patient")
-    public void testAddPatient() throws Exception{
+    public void testAddPatient() throws Exception {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         ObjectMapper objectMapper = new ObjectMapper();
         when(patientService.addPatient(patient)).thenReturn(patient);
 
@@ -164,15 +164,15 @@ public class PatientControllerTest {
     public void testUpdatePatient() throws Exception {
         /*ARRANGE*/
         String id = "1";
-        Patient patientToUpdate = new Patient("1", "Jacob", "Boyd", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patientToUpdate = new Patient("1", "Jacob", "Boyd", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         ObjectMapper objectMapper = new ObjectMapper();
         when(patientService.updatePatient(id, patientToUpdate)).thenReturn(patient);
 
         /*ACT AND ASSERT*/
         mockMvc.perform(put("/patient/{id}", id)
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(patientToUpdate)))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(patientToUpdate)))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(containsString("Tessa")));
         verify(patientService).updatePatient(id, patientToUpdate);
@@ -180,9 +180,9 @@ public class PatientControllerTest {
 
     @Test
     @DisplayName("Echec de la mise à jour d'un patient")
-    public void testUpdatePatientThrowsPatientNotFoundException() throws Exception{
+    public void testUpdatePatientThrowsPatientNotFoundException() throws Exception {
         String id = "1";
-        Patient patientToUpdate = new Patient("1", "T", "T", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patientToUpdate = new Patient("1", "T", "T", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         when(patientService.updatePatient(id, patientToUpdate)).thenReturn(null);
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -198,10 +198,10 @@ public class PatientControllerTest {
 
     @Test
     @DisplayName("Test de la suppression d'un patient")
-    public void testDeletePatient() throws Exception{
+    public void testDeletePatient() throws Exception {
         /*ARRANGE*/
-        String id ="1";
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        String id = "1";
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         when(patientService.deletePatient(id)).thenReturn(patient);
 
         /*ACT AND ASSERT*/
@@ -213,9 +213,9 @@ public class PatientControllerTest {
 
     @Test
     @DisplayName("Echec de la suppression d'un patient")
-    public void testDeletePatientThrowsPatientNotFoundException()throws Exception{
+    public void testDeletePatientThrowsPatientNotFoundException() throws Exception {
         /*ARRANGE*/
-        String id ="1";
+        String id = "1";
         when(patientService.deletePatient(id)).thenReturn(null);
 
         /*ACT AND ASSERT*/
