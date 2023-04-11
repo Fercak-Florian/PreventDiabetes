@@ -24,35 +24,17 @@
         <form th:action="@{/patient/validate}" th:object="${patient}" method="post" class="form-horizontal"
               style="width: 100%">
             <div class="form-group">
-                <label for="firstName" class="col-sm-2 control-label">FirstName</label>
-                <div class="col-sm-10">
-                    <input type="text" id="firstName" th:field="*{firstName}" placeholder="FirstName" autofocus>
-                    <p class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
-                </div>
-            </div>
-            <div class="form-group">
                 <label for="lastName" class="col-sm-2 control-label">LastName</label>
                 <div class="col-sm-10">
-                    <input type="text" id="lastName" th:field="*{lastName}" placeholder="LastName">
+                    <input type="text" id="lastName" th:field="*{lastName}" placeholder="LastName" autofocus>
                     <p class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                 </div>
             </div>
             <div class="form-group">
-                <label for="family" class="col-sm-2 control-label">Family</label>
+                <label for="firstName" class="col-sm-2 control-label">FirstName</label>
                 <div class="col-sm-10">
-                    <input type="text" id="family" th:field="*{family}"
-                           placeholder="Family">
-                    <p class="text-danger" th:if="${#fields.hasErrors('family')}" th:errors="*{family}">
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="given" class="col-sm-2 control-label">Given</label>
-                <div class="col-sm-10">
-                    <input type="text" id="given" th:field="*{given}"
-                           placeholder="Given">
-                    <p class="text-danger" th:if="${#fields.hasErrors('given')}" th:errors="*{given}">
-                    </p>
+                    <input type="text" id="firstName" th:field="*{firstName}" placeholder="FirstName">
+                    <p class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
                 </div>
             </div>
             <div class="form-group">

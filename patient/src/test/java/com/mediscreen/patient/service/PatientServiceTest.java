@@ -34,7 +34,7 @@ public class PatientServiceTest {
     @DisplayName("Test de récupération de tous les patients")
     public void testGetPatients() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         List<Patient> patientList = new ArrayList<>();
         patientList.add(patient);
         when(patientService.getPatients()).thenReturn(patientList);
@@ -51,7 +51,7 @@ public class PatientServiceTest {
     @DisplayName("Test de récupération d'un patient par son nom et prénom'")
     public void testGetPatientByFirstNameAndLastName() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
         when(patientRepository.findByLastNameAndFirstName("Carman", "Tessa")).thenReturn(optionalPatient);
 
@@ -82,7 +82,7 @@ public class PatientServiceTest {
     @DisplayName("Test de récupération d'un patient par son id")
     public void testGetPatientById() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
         when(patientRepository.findById("1")).thenReturn(optionalPatient);
 
@@ -113,7 +113,7 @@ public class PatientServiceTest {
     @DisplayName("Test de sauvegarde d'un patient")
     public void testAddPatient() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         when(patientRepository.insert(patient)).thenReturn(patient);
 
         /*ACT*/
@@ -128,12 +128,12 @@ public class PatientServiceTest {
     @DisplayName("Test de mis à jour d'un patient")
     public void testUpdatePatient() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
 
-        Patient modifiedPatient = new Patient("1", "Tessa", "Boyd", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient modifiedPatient = new Patient("1", "Tessa", "Boyd", "1966-12-31", "F", "1 Brookside St", "100-222-333");
 
-        Patient updatedPatient = new Patient("1", "Tessa", "Boyd", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient updatedPatient = new Patient("1", "Tessa", "Boyd", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         when(patientRepository.findById("1")).thenReturn(optionalPatient);
         when(patientRepository.save(modifiedPatient)).thenReturn(updatedPatient);
 
@@ -165,7 +165,7 @@ public class PatientServiceTest {
     @DisplayName("Test de suppression d'un patient")
     public void testDeletedPatient() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "family", "given", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
         when(patientRepository.findById("1")).thenReturn(optionalPatient);
 

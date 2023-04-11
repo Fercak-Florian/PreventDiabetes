@@ -11,13 +11,9 @@ public class PatientBean {
 
     private String id;
 
-    private String firstName;
-
     private String lastName;
 
-    private String family;
-
-    private String given;
+    private String firstName;
 
     private String dob;
 
