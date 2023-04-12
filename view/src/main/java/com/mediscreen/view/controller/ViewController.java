@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class ViewController {
         List<PatientBean> patients = microservicePatientProxy.getPatients();
         model.addAttribute("patients", patients);
         log.info("display patient list");
-        return "list";
+        return "patient/list";
     }
 
     /*This method only display UI to search a patient*/
@@ -65,7 +64,7 @@ public class ViewController {
         model.addAttribute("lightPatient", lightPatient);
         model.addAttribute("formComment", formComment);
         log.info("display patient information");
-        return "search";
+        return "patient/search";
     }
 
     @GetMapping("/patient/{id}")
@@ -92,7 +91,7 @@ public class ViewController {
             /*gerer le cas d'un id corrompu*/
             idProblem = true;
             model.addAttribute("idProblem", idProblem);
-            return "get";
+            return "patient/get";
         } else
             model.addAttribute("idProblem", idProblem);
         model.addAttribute("patient", patientBean);
@@ -100,11 +99,11 @@ public class ViewController {
         if (notesBeans != null) {
             model.addAttribute("notes", notesBeans);
             log.info("display patient information");
-            return "get";
+            return "patient/get";
         } else {
             log.warn("note list is empty");
             model.addAttribute("notes", new ArrayList<>());
-            return "get";
+            return "patient/get";
         }
     }
 
@@ -116,7 +115,7 @@ public class ViewController {
         if (result.hasErrors()) {
             model.addAttribute("formComment", formComment);
             log.warn("error in user input");
-            return "search";
+            return "patient/search";
         } else {
             try {
                 LightPatientBean lightPatientBean = new LightPatientBean(lightPatient.getFirstName(), lightPatient.getLastName());
@@ -127,7 +126,7 @@ public class ViewController {
                 formComment.setError(true);
                 formComment.setMessage("Patient does not exist");
                 model.addAttribute("formComment", formComment);
-                return "search";
+                return "patient/search";
             }
         }
     }
@@ -137,7 +136,7 @@ public class ViewController {
     public String showAddPatientForm(Model model) {
         model.addAttribute("patient", new Patient());
         log.info("display form to add a patient");
-        return "add";
+        return "patient/add";
     }
 
     /*This method is activated when submit POST Add Patient Button*/
@@ -145,7 +144,7 @@ public class ViewController {
     public String validatePatient(@Valid Patient patient, BindingResult result) {
         if (result.hasErrors()) {
             log.warn("patient not saved");
-            return "add";
+            return "patient/add";
         } else {
             PatientBean patientBean = new PatientBean(patient.getId(), patient.getLastName(), patient.getFirstName(), patient.getDob(), patient.getSex(), patient.getAddress(), patient.getPhone());
             microservicePatientProxy.addPatient(patientBean);
@@ -159,7 +158,7 @@ public class ViewController {
     public String showUpdatePatientForm(@PathVariable("id") String id, Model model) {
         PatientBean patientBean = microservicePatientProxy.getPatient(id);
         model.addAttribute("patient", patientBean);
-        return "update";
+        return "patient/update";
     }
 
     /*This method is activated when submit POST Update Patient Button*/
@@ -167,7 +166,7 @@ public class ViewController {
     public String updatePatient(@PathVariable("id") String id, @Valid Patient patient, BindingResult result) {
         if (result.hasErrors()) {
             log.warn("patient not updated");
-            return "update";
+            return "patient/update";
         } else {
             PatientBean patientBean = new PatientBean(patient.getId(), patient.getLastName(), patient.getFirstName(), patient.getDob(), patient.getSex(), patient.getAddress(), patient.getPhone());
             microservicePatientProxy.updatePatient(patientBean, id);
