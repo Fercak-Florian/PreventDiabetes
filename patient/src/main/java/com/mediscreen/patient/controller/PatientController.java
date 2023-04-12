@@ -4,6 +4,8 @@ import com.mediscreen.patient.exception.PatientNotFoundException;
 import com.mediscreen.patient.model.Patient;
 import com.mediscreen.patient.service.PatientService;
 import com.mediscreen.patient.utils.LightPatient;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@Api("API executant les operation CRUD sur les patients")
 public class PatientController {
 
     private PatientService patientService;
@@ -24,6 +27,7 @@ public class PatientController {
         this.patientService = patientService;
     }
 
+    @ApiOperation("Endpoint permettant la récupération de tous les patients")
     @GetMapping("/patient")
     public ResponseEntity<List<Patient>> getPatients() {
         List<Patient> patients = patientService.getPatients();
@@ -36,6 +40,7 @@ public class PatientController {
         }
     }
 
+    @ApiOperation("Endpoint permettant la récupération d'un patient par son id")
     @GetMapping("/patient/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable("id") String id) {
         Patient patient = patientService.getPatientById(id);
@@ -48,6 +53,7 @@ public class PatientController {
         }
     }
 
+    @ApiOperation("Endpoint permettant la récupération d'un patient par le couple nom, prénom")
     @PostMapping("/patient/lightPatient")
     public ResponseEntity<Patient> getPatientByFirstNameAndLastName(@Valid @RequestBody LightPatient lightPatient) {
         Patient patient = patientService.getPatientByFirstNameAndLastName(lightPatient.getLastName(), lightPatient.getFirstName());
@@ -60,6 +66,7 @@ public class PatientController {
         }
     }
 
+    @ApiOperation("Endpoint permettant l'ajout d'un patient")
     @PostMapping("/patient")
     public ResponseEntity<Patient> addPatient(@Valid @RequestBody Patient patient) {
         Patient addedPatient = patientService.addPatient(patient);
@@ -72,6 +79,7 @@ public class PatientController {
         return ResponseEntity.created(location).body(addedPatient);
     }
 
+    @ApiOperation("Endpoint permettant la mise à jour d'un patient")
     @PutMapping("/patient/{id}")
     public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient, @PathVariable String id) {
         Patient updatedPatient = patientService.updatePatient(id, patient);
@@ -89,6 +97,7 @@ public class PatientController {
         }
     }
 
+    @ApiOperation("Endpoint permettant la suppression d'un patient")
     @DeleteMapping("/patient/{id}")
     public ResponseEntity<Patient> deletePatient(@PathVariable String id) {
         Patient patient = patientService.deletePatient(id);
