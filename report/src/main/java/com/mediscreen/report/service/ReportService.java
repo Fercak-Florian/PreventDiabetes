@@ -7,6 +7,7 @@ import com.mediscreen.report.proxy.MicroserviceNoteProxy;
 import com.mediscreen.report.proxy.MicroservicePatientProxy;
 import com.mediscreen.report.utils.AgeCalculate;
 import com.mediscreen.report.utils.NoteParser;
+import com.mediscreen.report.utils.RiskLevelDefiner;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,16 @@ public class ReportService {
 
     private AgeCalculate ageCalculate;
 
+    private RiskLevelDefiner riskLevelDefiner;
+
     private MicroserviceNoteProxy microserviceNoteProxy;
 
     private MicroservicePatientProxy microservicePatientProxy;
 
-    public ReportService(NoteParser noteParser, AgeCalculate ageCalculate, MicroserviceNoteProxy microserviceNoteProxy, MicroservicePatientProxy microservicePatientProxy) {
+    public ReportService(NoteParser noteParser, AgeCalculate ageCalculate, RiskLevelDefiner riskLevelDefiner, MicroserviceNoteProxy microserviceNoteProxy, MicroservicePatientProxy microservicePatientProxy) {
         this.noteParser = noteParser;
         this.ageCalculate = ageCalculate;
+        this.riskLevelDefiner = riskLevelDefiner;
         this.microserviceNoteProxy = microserviceNoteProxy;
         this.microservicePatientProxy = microservicePatientProxy;
     }
@@ -41,7 +45,7 @@ public class ReportService {
         PatientBean patientBean;
         try {
             patientBean = microservicePatientProxy.getPatientById(id);
-        } catch (Exception e){
+        } catch (Exception e) {
             patientBean = null;
             log.warn("error during retreiving patient");
         }
@@ -60,12 +64,19 @@ public class ReportService {
         int numberOfTriggers = 0;
         for (NoteBean note : notesBeans) {
             int count = noteParser.count(note.getContent());
-            if(count > 0){
+            if (count > 0) {
                 numberOfTriggers = numberOfTriggers + count;
             }
 
         }
+
+        /*--------- définition du niveau de risque ---------*/
+        int age = ageCalculate.calculate(patientBean.getDob());
+        String sex = patientBean.getSex();
+        riskLevel = riskLevelDefiner.define(age, sex, numberOfTriggers);
+
+
         log.info("nombre de declencheurs : " + numberOfTriggers);
-        return new Report(patientBean.getLastName(), patientBean.getFirstName(), ageCalculate.calculate(patientBean.getDob()), riskLevel);
+        return new Report(patientBean.getLastName(), patientBean.getFirstName(), age, riskLevel);
     }
 }
