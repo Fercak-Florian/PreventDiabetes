@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReportBean {
-    private String lastName;
-    private String firstName;
+public class SubReport {
+    private String sex;
+    private int numberOfTriggers;
     private int age;
-    private String riskLevel;
-    private SubReport subReport;
 }
