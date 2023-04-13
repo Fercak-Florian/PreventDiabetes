@@ -52,18 +52,18 @@ public class RiskLevelDefiner {
                                 break;
                         }
 
-                    }
-                } else if (sex.contains("F")) {
-                    switch (numberOfTriggers) {
-                        case 4:
-                            levelRisk = "In Danger";
-                            break;
-                        case 7:
-                            levelRisk = "Early onset";
-                            break;
-                        default:
-                            levelRisk = "undefined";
-                            break;
+                    } else if (sex.contains("F")) {
+                        switch (numberOfTriggers) {
+                            case 4:
+                                levelRisk = "In Danger";
+                                break;
+                            case 7:
+                                levelRisk = "Early onset";
+                                break;
+                            default:
+                                levelRisk = "undefined";
+                                break;
+                        }
                     }
                 }
         return levelRisk;
