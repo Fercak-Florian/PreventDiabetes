@@ -7,6 +7,7 @@ import com.mediscreen.patient.utils.LightPatient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,7 +29,7 @@ public class PatientController {
     }
 
     @ApiOperation("Endpoint permettant la récupération de tous les patients")
-    @GetMapping("/patient")
+    @RequestMapping(value = "/patient", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Patient>> getPatients() {
         List<Patient> patients = patientService.getPatients();
         if (patients.isEmpty()) {
@@ -41,7 +42,7 @@ public class PatientController {
     }
 
     @ApiOperation("Endpoint permettant la récupération d'un patient par son id")
-    @GetMapping("/patient/{id}")
+    @RequestMapping(value = "/patient/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> getPatientById(@PathVariable("id") String id) {
         Patient patient = patientService.getPatientById(id);
         if (patient == null) {
@@ -54,7 +55,7 @@ public class PatientController {
     }
 
     @ApiOperation("Endpoint permettant la récupération d'un patient par le couple nom, prénom")
-    @PostMapping("/patient/lightPatient")
+    @RequestMapping(value = "/patient/lightPatient", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> getPatientByFirstNameAndLastName(@Valid @RequestBody LightPatient lightPatient) {
         Patient patient = patientService.getPatientByFirstNameAndLastName(lightPatient.getLastName(), lightPatient.getFirstName());
         if (patient == null) {
@@ -67,7 +68,7 @@ public class PatientController {
     }
 
     @ApiOperation("Endpoint permettant l'ajout d'un patient")
-    @PostMapping("/patient")
+    @RequestMapping(value = "/patient", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> addPatient(@Valid @RequestBody Patient patient) {
         Patient addedPatient = patientService.addPatient(patient);
         log.info("patient created");
@@ -80,7 +81,7 @@ public class PatientController {
     }
 
     @ApiOperation("Endpoint permettant la mise à jour d'un patient")
-    @PutMapping("/patient/{id}")
+    @RequestMapping(value = "/patient/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient, @PathVariable String id) {
         Patient updatedPatient = patientService.updatePatient(id, patient);
         if (updatedPatient == null) {
@@ -98,7 +99,7 @@ public class PatientController {
     }
 
     @ApiOperation("Endpoint permettant la suppression d'un patient")
-    @DeleteMapping("/patient/{id}")
+    @RequestMapping(value = "/patient/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Patient> deletePatient(@PathVariable String id) {
         Patient patient = patientService.deletePatient(id);
         if (patient == null) {
