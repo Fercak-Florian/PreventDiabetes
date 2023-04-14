@@ -2,6 +2,8 @@ package com.mediscreen.report.service;
 
 import com.mediscreen.report.bean.NoteBean;
 import com.mediscreen.report.bean.PatientBean;
+import com.mediscreen.report.exception.NoteNotFoundException;
+import com.mediscreen.report.exception.PatientNotFoundException;
 import com.mediscreen.report.model.Report;
 import com.mediscreen.report.proxy.MicroserviceNoteProxy;
 import com.mediscreen.report.proxy.MicroservicePatientProxy;
@@ -39,14 +41,13 @@ public class ReportService {
 
     public Report getReport(String id) {
         String riskLevel = "Test Level";
-//        Report fakeReport = new Report("Boyd", "Jacob", 40, riskLevel);
-
+        Report report = new Report();
 
         /*--------- récupération du patient ---------*/
         PatientBean patientBean;
         try {
             patientBean = microservicePatientProxy.getPatientById(id);
-        } catch (Exception e) {
+        } catch (PatientNotFoundException e) {
             patientBean = null;
             log.warn("error during retreiving patient");
         }
@@ -56,9 +57,15 @@ public class ReportService {
         List<NoteBean> notesBeans = new ArrayList<>();
         try {
             notesBeans = microserviceNoteProxy.getNotesByPatientId(id);
-        } catch (Exception e) {
+        } catch (NoteNotFoundException e) {
             notesBeans = null;
             log.warn("error during retreiving notes");
+        }
+
+        if(patientBean == null || notesBeans == null){
+            Report nullReport = null;
+//            return nullReport;
+            return null;
         }
 
         /*--------- analyse des notes ---------*/
@@ -81,6 +88,13 @@ public class ReportService {
 
 
         log.info("nombre de declencheurs : " + numberOfTriggers);
-        return new Report(patientBean.getLastName(), patientBean.getFirstName(), age, riskLevel, subReport);
+
+        /*--------- construction du rapport ---------*/
+        report.setLastName(patientBean.getLastName());
+        report.setFirstName(patientBean.getFirstName());
+        report.setAge(age);
+        report.setRiskLevel(riskLevel);
+        report.setSubReport(subReport);
+        return report;
     }
 }
