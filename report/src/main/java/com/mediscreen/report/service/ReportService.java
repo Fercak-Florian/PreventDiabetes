@@ -40,8 +40,6 @@ public class ReportService {
     }
 
     public Report getReport(String id) {
-        String riskLevel = "Test Level";
-        Report report = new Report();
 
         /*--------- récupération du patient ---------*/
         PatientBean patientBean;
@@ -63,8 +61,6 @@ public class ReportService {
         }
 
         if(patientBean == null || notesBeans == null){
-            Report nullReport = null;
-//            return nullReport;
             return null;
         }
 
@@ -75,13 +71,12 @@ public class ReportService {
             if (count > 0) {
                 numberOfTriggers = numberOfTriggers + count;
             }
-
         }
 
         /*--------- définition du niveau de risque ---------*/
         int age = ageCalculate.calculate(patientBean.getDob());
         String sex = patientBean.getSex();
-        riskLevel = riskLevelDefiner.define(age, sex, numberOfTriggers);
+        String riskLevel = riskLevelDefiner.define(age, sex, numberOfTriggers);
 
         /*--------- paramètres de génération du rapport ---------*/
         SubReport subReport = new SubReport(sex, numberOfTriggers, age);
@@ -89,12 +84,7 @@ public class ReportService {
 
         log.info("nombre de declencheurs : " + numberOfTriggers);
 
-        /*--------- construction du rapport ---------*/
-        report.setLastName(patientBean.getLastName());
-        report.setFirstName(patientBean.getFirstName());
-        report.setAge(age);
-        report.setRiskLevel(riskLevel);
-        report.setSubReport(subReport);
-        return report;
+        /*--------- construction et retour du rapport ---------*/
+        return new Report(patientBean.getLastName(), patientBean.getFirstName(), age, riskLevel, subReport);
     }
 }
