@@ -1,5 +1,6 @@
 package com.mediscreen.report.controller;
 
+import com.mediscreen.report.exception.ReportGenerationException;
 import com.mediscreen.report.model.Report;
 import com.mediscreen.report.service.ReportService;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,10 @@ public class ReportController {
     @GetMapping("/report/{id}")
     public ResponseEntity<Report> getReport(@PathVariable String id){
         Report report = reportService.getReport(id);
-        return ResponseEntity.ok(report);
+        if(report == null){
+            throw new ReportGenerationException("Error during report generation");
+        } else {
+            return ResponseEntity.ok(report);
+        }
     }
 }
