@@ -50,7 +50,7 @@ public class PatientControllerTest {
     @DisplayName("Test de récupération de tous les patients")
     public void testGetPatients() throws Exception {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient(1, "Carman", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         List<Patient> patientList = new ArrayList<>();
         patientList.add(patient);
         when(patientService.getPatients()).thenReturn(patientList);
@@ -82,8 +82,8 @@ public class PatientControllerTest {
     @DisplayName("Test de récupération d'un patient par son id")
     public void testGetPatientById() throws Exception {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
-        String id = "1";
+        Patient patient = new Patient(1, "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        int id = 1;
         when(patientService.getPatientById(id)).thenReturn(patient);
 
         /*ACT AND ASSERT*/
@@ -97,7 +97,7 @@ public class PatientControllerTest {
     @DisplayName("Echec de récupération d'un patient par son id")
     public void testGetPatientByIdThrowsPatientNotFoundException() throws Exception {
         /*ARRANGE*/
-        String id = "1";
+        int id = 1;
         when(patientService.getPatientById(id)).thenReturn(null);
 
         /*ACT AND ASSERT*/
@@ -113,7 +113,7 @@ public class PatientControllerTest {
     @DisplayName("Test de la récupération d'un patient par son nom et prénom")
     public void testGetPatientByFirstNameAndLastName() throws Exception {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient(1, "Carman", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         ObjectMapper objectMapper = new ObjectMapper();
         when(patientService.getPatientByFirstNameAndLastName("Carman", "Tessa")).thenReturn(patient);
 
@@ -146,7 +146,7 @@ public class PatientControllerTest {
     @DisplayName("Test de la sauvegarde d'un patient")
     public void testAddPatient() throws Exception {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient(1, "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         ObjectMapper objectMapper = new ObjectMapper();
         when(patientService.addPatient(patient)).thenReturn(patient);
 
@@ -163,9 +163,9 @@ public class PatientControllerTest {
     @DisplayName("Test de la mise à jour d'un patient")
     public void testUpdatePatient() throws Exception {
         /*ARRANGE*/
-        String id = "1";
-        Patient patientToUpdate = new Patient("1", "Jacob", "Boyd", "1966-12-31", "F", "1 Brookside St", "100-222-333");
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        int id = 1;
+        Patient patientToUpdate = new Patient(1, "Jacob", "Boyd", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient(1, "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         ObjectMapper objectMapper = new ObjectMapper();
         when(patientService.updatePatient(id, patientToUpdate)).thenReturn(patient);
 
@@ -181,8 +181,8 @@ public class PatientControllerTest {
     @Test
     @DisplayName("Echec de la mise à jour d'un patient")
     public void testUpdatePatientThrowsPatientNotFoundException() throws Exception {
-        String id = "1";
-        Patient patientToUpdate = new Patient("1", "T", "T", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        int id = 1;
+        Patient patientToUpdate = new Patient(1, "T", "T", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         when(patientService.updatePatient(id, patientToUpdate)).thenReturn(null);
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -200,8 +200,8 @@ public class PatientControllerTest {
     @DisplayName("Test de la suppression d'un patient")
     public void testDeletePatient() throws Exception {
         /*ARRANGE*/
-        String id = "1";
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        int id = 1;
+        Patient patient = new Patient(1, "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         when(patientService.deletePatient(id)).thenReturn(patient);
 
         /*ACT AND ASSERT*/
@@ -215,7 +215,7 @@ public class PatientControllerTest {
     @DisplayName("Echec de la suppression d'un patient")
     public void testDeletePatientThrowsPatientNotFoundException() throws Exception {
         /*ARRANGE*/
-        String id = "1";
+        int id = 1;
         when(patientService.deletePatient(id)).thenReturn(null);
 
         /*ACT AND ASSERT*/
