@@ -3,6 +3,8 @@ package com.mediscreen.note.controller;
 import com.mediscreen.note.exception.NoteNotFoundException;
 import com.mediscreen.note.model.Note;
 import com.mediscreen.note.service.NoteService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@Api("API executant les operation CRUD sur les notes")
 public class NoteController {
 
     private NoteService noteService;
@@ -23,6 +26,7 @@ public class NoteController {
         this.noteService = noteService;
     }
 
+    @ApiOperation("Endpoint permettant la récupération de toutes les notes")
     @RequestMapping(value = "/note", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Note>> getNotes() {
         List<Note> notes = noteService.getNotes();
@@ -35,6 +39,7 @@ public class NoteController {
         }
     }
 
+    @ApiOperation("Endpoint permettant la récupération d'une note par son id")
     @RequestMapping(value = "/note/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Note> getNote(@PathVariable("id") String id) {
         Note note = noteService.getNote(id);
@@ -47,6 +52,7 @@ public class NoteController {
         }
     }
 
+    @ApiOperation("Endpoint permettant la récupération des notes liées au patient")
     @RequestMapping(value = "/note/patientId/{id}" ,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Note>> getNotesByPatientId(@PathVariable("id") int id){
        List<Note> notes =  noteService.getNotesByPatientId(id);
@@ -59,6 +65,7 @@ public class NoteController {
        }
     }
 
+    @ApiOperation("Endpoint permettant d'ajouter une note")
     @RequestMapping(value = "/note", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Note> addNote(@Valid @RequestBody Note note) {
         Note addedNote = noteService.addNote(note);
@@ -71,6 +78,7 @@ public class NoteController {
         return ResponseEntity.created(location).body(addedNote);
     }
 
+    @ApiOperation("Endpoint permettant de mettre à jour une note")
     @RequestMapping(value = "/note/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Note> updateNote(@Valid @RequestBody Note note, @PathVariable("id") String id) {
         Note updatedNote = noteService.updateNote(id, note);
@@ -88,6 +96,7 @@ public class NoteController {
         }
     }
 
+    @ApiOperation("Endpoint permettant la suppression d'une note")
     @RequestMapping(value = "/note/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Note> deleteNote(@PathVariable("id") String id) {
         Note note = noteService.deleteNote(id);
