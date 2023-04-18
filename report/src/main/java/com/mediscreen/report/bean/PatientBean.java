@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PatientBean {
 
-    private String id;
-
-    private String firstName;
+    private int id;
 
     private String lastName;
+
+    private String firstName;
 
     private String dob;
 

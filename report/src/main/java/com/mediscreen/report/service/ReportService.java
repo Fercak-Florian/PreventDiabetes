@@ -39,7 +39,7 @@ public class ReportService {
         this.microservicePatientProxy = microservicePatientProxy;
     }
 
-    public Report getReport(String id) {
+    public Report getReport(int id) {
 
         /*--------- récupération du patient ---------*/
         PatientBean patientBean;

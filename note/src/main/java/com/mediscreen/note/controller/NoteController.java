@@ -47,7 +47,7 @@ public class NoteController {
     }
 
     @GetMapping("/note/patientId/{id}")
-    public ResponseEntity<List<Note>> getNotesByPatientId(@PathVariable String id){
+    public ResponseEntity<List<Note>> getNotesByPatientId(@PathVariable int id){
        List<Note> notes =  noteService.getNotesByPatientId(id);
        if(notes.isEmpty()){
            log.warn("patient note list is empty");

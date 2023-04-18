@@ -11,5 +11,5 @@ import java.util.List;
 public interface MicroserviceNoteProxy {
 
     @GetMapping("/note/patientId/{id}")
-    List<NoteBean> getNotesByPatientId(@PathVariable String id);
+    List<NoteBean> getNotesByPatientId(@PathVariable int id);
 }
