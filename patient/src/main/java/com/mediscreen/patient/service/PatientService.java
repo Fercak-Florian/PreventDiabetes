@@ -34,7 +34,7 @@ public class PatientService {
         }
     }
 
-    public Patient getPatientById(String id) {
+    public Patient getPatientById(int id) {
         Optional<Patient> optionalPatient = patientRepository.findById(id);
         if (optionalPatient.isEmpty()) {
             log.warn("patient with id : " + id + " is not found");
@@ -46,10 +46,10 @@ public class PatientService {
     }
 
     public Patient addPatient(Patient patient) {
-        return patientRepository.insert(patient);
+        return patientRepository.save(patient);
     }
 
-    public Patient updatePatient(String id, Patient patient) {
+    public Patient updatePatient(int id, Patient patient) {
         Optional<Patient> optionalPatient = patientRepository.findById(id);
         if (optionalPatient.isEmpty()) {
             log.warn("patient not found for this id : " + id);
@@ -66,7 +66,7 @@ public class PatientService {
         }
     }
 
-    public Patient deletePatient(String id) {
+    public Patient deletePatient(int id) {
         Optional<Patient> optionalPatient = patientRepository.findById(id);
         if (optionalPatient.isEmpty()) {
             log.warn("patient not found for this id : " + id);

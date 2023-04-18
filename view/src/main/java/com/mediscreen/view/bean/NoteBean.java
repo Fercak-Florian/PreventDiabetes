@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class NoteBean {
     private String id;
-    private String patientId;
+    private int patientId;
     private String dateOfCreation;
     private String content;
 }

@@ -2,6 +2,7 @@ package com.mediscreen.view.proxy;
 
 import com.mediscreen.view.bean.NoteBean;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,21 +14,21 @@ public interface MicroserviceNoteProxy {
 
     /*Signature des méthodes présentes dans NoteController*/
 
-    @GetMapping("/note")
+    @RequestMapping(value = "/note", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     List<NoteBean> getNotes();
 
-    @GetMapping("/note/{id}")
-    NoteBean getNote(@PathVariable String id);
+    @RequestMapping(value = "/note/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    NoteBean getNote(@PathVariable("id") String id);
 
-    @GetMapping("/note/patientId/{id}")
-    List<NoteBean> getNotesByPatientId(@PathVariable String id);
+    @RequestMapping(value = "/note/patientId/{id}" ,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    List<NoteBean> getNotesByPatientId(@PathVariable("id") int id);
 
-    @PostMapping("/note")
+    @RequestMapping(value = "/note", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     NoteBean addNote(@RequestBody NoteBean noteBean);
 
-    @PutMapping("/note/{id}")
-    NoteBean updateNote(@RequestBody NoteBean noteBean, @PathVariable String id);
+    @RequestMapping(value = "/note/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    NoteBean updateNote(@RequestBody NoteBean noteBean, @PathVariable("id") String id);
 
-    @DeleteMapping("/note/{id}")
-    NoteBean deleteNote(@PathVariable String id);
+    @RequestMapping(value = "/note/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    NoteBean deleteNote(@PathVariable("id") String id);
 }

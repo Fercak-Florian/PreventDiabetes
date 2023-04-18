@@ -19,7 +19,7 @@ public class ReportController {
     }
 
     @GetMapping("/report/{id}")
-    public ResponseEntity<Report> getReport(@PathVariable String id){
+    public ResponseEntity<Report> getReport(@PathVariable("id") int id){
         Report report = reportService.getReport(id);
         if(report == null){
             log.warn("error during report generation");

@@ -34,7 +34,7 @@ public class PatientServiceTest {
     @DisplayName("Test de récupération de tous les patients")
     public void testGetPatients() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient(1, "Carman", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         List<Patient> patientList = new ArrayList<>();
         patientList.add(patient);
         when(patientService.getPatients()).thenReturn(patientList);
@@ -51,7 +51,7 @@ public class PatientServiceTest {
     @DisplayName("Test de récupération d'un patient par son nom et prénom'")
     public void testGetPatientByFirstNameAndLastName() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient(1, "Carman", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
         when(patientRepository.findByLastNameAndFirstName("Carman", "Tessa")).thenReturn(optionalPatient);
 
@@ -82,16 +82,16 @@ public class PatientServiceTest {
     @DisplayName("Test de récupération d'un patient par son id")
     public void testGetPatientById() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient(1, "Carman", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
-        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+        when(patientRepository.findById(1)).thenReturn(optionalPatient);
 
         /*ACT*/
-        Patient result = patientService.getPatientById("1");
+        Patient result = patientService.getPatientById(1);
 
         /*ASSERT*/
         assertThat(result.getFirstName()).isEqualTo("Tessa");
-        verify(patientRepository).findById("1");
+        verify(patientRepository).findById(1);
     }
 
     @Test
@@ -99,50 +99,50 @@ public class PatientServiceTest {
     public void testGetPatientByIdReturnNull() {
         /*ARRANGE*/
         Optional<Patient> optionalPatient = Optional.empty();
-        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+        when(patientRepository.findById(1)).thenReturn(optionalPatient);
 
         /*ACT*/
-        Patient result = patientService.getPatientById("1");
+        Patient result = patientService.getPatientById(1);
 
         /*ASSERT*/
         assertThat(result).isNull();
-        verify(patientRepository).findById("1");
+        verify(patientRepository).findById(1);
     }
 
     @Test
     @DisplayName("Test de sauvegarde d'un patient")
     public void testAddPatient() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
-        when(patientRepository.insert(patient)).thenReturn(patient);
+        Patient patient = new Patient(1, "Carman", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        when(patientRepository.save(patient)).thenReturn(patient);
 
         /*ACT*/
         Patient result = patientService.addPatient(patient);
 
         /*ASSERT*/
         assertThat(result.getFirstName()).isEqualTo("Tessa");
-        verify(patientRepository).insert(patient);
+        verify(patientRepository).save(patient);
     }
 
     @Test
     @DisplayName("Test de mis à jour d'un patient")
     public void testUpdatePatient() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient(1, "Carman", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
 
-        Patient modifiedPatient = new Patient("1", "Tessa", "Boyd", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient modifiedPatient = new Patient(1, "Boyd", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
 
-        Patient updatedPatient = new Patient("1", "Tessa", "Boyd", "1966-12-31", "F", "1 Brookside St", "100-222-333");
-        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+        Patient updatedPatient = new Patient(1, "Boyd", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        when(patientRepository.findById(1)).thenReturn(optionalPatient);
         when(patientRepository.save(modifiedPatient)).thenReturn(updatedPatient);
 
         /*ACT*/
-        Patient result = patientService.updatePatient("1", modifiedPatient);
+        Patient result = patientService.updatePatient(1, modifiedPatient);
 
         /*ASSERT*/
         assertThat(result.getLastName()).isEqualTo("Boyd");
-        verify(patientRepository).findById("1");
+        verify(patientRepository).findById(1);
         verify(patientRepository).save(modifiedPatient);
     }
 
@@ -151,30 +151,30 @@ public class PatientServiceTest {
     public void testUpdatePatientReturnNull() {
         /*ARRANGE*/
         Optional<Patient> optionalPatient = Optional.empty();
-        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+        when(patientRepository.findById(1)).thenReturn(optionalPatient);
 
         /*ACT*/
-        Patient result = patientService.updatePatient("1", new Patient());
+        Patient result = patientService.updatePatient(1, new Patient());
 
         /*ASSERT*/
         assertThat(result).isNull();
-        verify(patientRepository).findById("1");
+        verify(patientRepository).findById(1);
     }
 
     @Test
     @DisplayName("Test de suppression d'un patient")
     public void testDeletedPatient() {
         /*ARRANGE*/
-        Patient patient = new Patient("1", "Tessa", "Carman", "1966-12-31", "F", "1 Brookside St", "100-222-333");
+        Patient patient = new Patient(1, "Carman", "Tessa", "1966-12-31", "F", "1 Brookside St", "100-222-333");
         Optional<Patient> optionalPatient = Optional.of(patient);
-        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+        when(patientRepository.findById(1)).thenReturn(optionalPatient);
 
         /*ACT*/
-        Patient result = patientService.deletePatient("1");
+        Patient result = patientService.deletePatient(1);
 
         /*ASSERT*/
         assertThat(result.getFirstName()).isEqualTo("Tessa");
-        verify(patientRepository).deleteById("1");
+        verify(patientRepository).deleteById(1);
     }
 
     @Test
@@ -182,13 +182,13 @@ public class PatientServiceTest {
     public void testDeletePatientReturnNull() {
         /*ARRANGE*/
         Optional<Patient> optionalPatient = Optional.empty();
-        when(patientRepository.findById("1")).thenReturn(optionalPatient);
+        when(patientRepository.findById(1)).thenReturn(optionalPatient);
 
         /*ACT*/
-        Patient result = patientService.deletePatient("1");
+        Patient result = patientService.deletePatient(1);
 
         /*ASSERT*/
         assertThat(result).isNull();
-        verify(patientRepository).findById("1");
+        verify(patientRepository).findById(1);
     }
 }

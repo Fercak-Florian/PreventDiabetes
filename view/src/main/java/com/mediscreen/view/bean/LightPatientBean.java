@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LightPatientBean {
 
-    public LightPatientBean(String firstName, String lastName){
-        this.firstName = firstName;
+    public LightPatientBean(String lastName, String firstName){
         this.lastName = lastName;
+        this.firstName = firstName;
     }
 
-    private String firstName;
     private String lastName;
+    private String firstName;
 }

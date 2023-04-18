@@ -4,6 +4,7 @@ import com.mediscreen.note.exception.NoteNotFoundException;
 import com.mediscreen.note.model.Note;
 import com.mediscreen.note.service.NoteService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,7 +23,7 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @GetMapping("/note")
+    @RequestMapping(value = "/note", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Note>> getNotes() {
         List<Note> notes = noteService.getNotes();
         if (notes.isEmpty()) {
@@ -34,8 +35,8 @@ public class NoteController {
         }
     }
 
-    @GetMapping("/note/{id}")
-    public ResponseEntity<Note> getNote(@PathVariable String id) {
+    @RequestMapping(value = "/note/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Note> getNote(@PathVariable("id") String id) {
         Note note = noteService.getNote(id);
         if (note == null) {
             log.warn("note not found for this id : " + id);
@@ -46,8 +47,8 @@ public class NoteController {
         }
     }
 
-    @GetMapping("/note/patientId/{id}")
-    public ResponseEntity<List<Note>> getNotesByPatientId(@PathVariable String id){
+    @RequestMapping(value = "/note/patientId/{id}" ,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Note>> getNotesByPatientId(@PathVariable("id") int id){
        List<Note> notes =  noteService.getNotesByPatientId(id);
        if(notes.isEmpty()){
            log.warn("patient note list is empty");
@@ -58,7 +59,7 @@ public class NoteController {
        }
     }
 
-    @PostMapping("/note")
+    @RequestMapping(value = "/note", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Note> addNote(@Valid @RequestBody Note note) {
         Note addedNote = noteService.addNote(note);
         log.info("note created");
@@ -70,8 +71,8 @@ public class NoteController {
         return ResponseEntity.created(location).body(addedNote);
     }
 
-    @PutMapping("/note/{id}")
-    public ResponseEntity<Note> updateNote(@Valid @RequestBody Note note, @PathVariable String id) {
+    @RequestMapping(value = "/note/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Note> updateNote(@Valid @RequestBody Note note, @PathVariable("id") String id) {
         Note updatedNote = noteService.updateNote(id, note);
         if (updatedNote == null) {
             log.warn("note not found for this id : " + id);
@@ -87,8 +88,8 @@ public class NoteController {
         }
     }
 
-    @DeleteMapping("/note/{id}")
-    public ResponseEntity<Note> deleteNote(@PathVariable String id) {
+    @RequestMapping(value = "/note/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Note> deleteNote(@PathVariable("id") String id) {
         Note note = noteService.deleteNote(id);
         if (note == null) {
             log.warn("error during deleting notes with id : " + id);

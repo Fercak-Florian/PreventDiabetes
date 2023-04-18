@@ -68,13 +68,13 @@ public class ViewController {
     }
 
     @GetMapping("/patient/{id}")
-    public String showPatientInformation(@PathVariable String id, Model model) {
+    public String showPatientInformation(@PathVariable int id, Model model) {
         PatientBean patientBean = new PatientBean();
         List<NoteBean> notesBeans;
         Boolean idProblem = false;
 
         try {
-            patientBean = microservicePatientProxy.getPatient(id);
+            patientBean = microservicePatientProxy.getPatientById(id);
         } catch (PatientNotFoundException e) {
             log.warn("patient does not exist");
             patientBean = null;
@@ -118,7 +118,7 @@ public class ViewController {
             return "patient/search";
         } else {
             try {
-                LightPatientBean lightPatientBean = new LightPatientBean(lightPatient.getFirstName(), lightPatient.getLastName());
+                LightPatientBean lightPatientBean = new LightPatientBean(lightPatient.getLastName(), lightPatient.getFirstName());
                 patientBean = microservicePatientProxy.getPatientByFirstNameAndLastName(lightPatientBean);
                 return "redirect:/patient/" + patientBean.getId();
             } catch (Exception e) {
@@ -155,15 +155,15 @@ public class ViewController {
 
     /*This method only display the form to update a patient*/
     @GetMapping("/patient/update/{id}")
-    public String showUpdatePatientForm(@PathVariable("id") String id, Model model) {
-        PatientBean patientBean = microservicePatientProxy.getPatient(id);
+    public String showUpdatePatientForm(@PathVariable("id") int id, Model model) {
+        PatientBean patientBean = microservicePatientProxy.getPatientById(id);
         model.addAttribute("patient", patientBean);
         return "patient/update";
     }
 
     /*This method is activated when submit POST Update Patient Button*/
     @PostMapping("/patient/update/{id}")
-    public String updatePatient(@PathVariable("id") String id, @Valid Patient patient, BindingResult result) {
+    public String updatePatient(@PathVariable("id") int id, @Valid Patient patient, BindingResult result) {
         if (result.hasErrors()) {
             log.warn("patient not updated");
             return "patient/update";
@@ -176,7 +176,7 @@ public class ViewController {
 
     /*This method is used when DELETE link is clicked*/
     @GetMapping("patient/delete/{id}")
-    public String deletePatient(@PathVariable("id") String id) {
+    public String deletePatient(@PathVariable("id") int id) {
         microservicePatientProxy.deletePatient(id);
         return "redirect:/patient/list";
     }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PatientBean {
 
-    private String id;
+    private int id;
 
     private String lastName;
 

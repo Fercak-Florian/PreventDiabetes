@@ -48,7 +48,9 @@ public class NoteControllerTest {
     @DisplayName("Test de récupération de toutes les notes")
     public void testGetNotes() throws Exception {
         /*ARRANGE*/
-        Note note = new Note("1", "2023-30-03", "content test");
+        String id = "1";
+        int patientId = 2;
+        Note note = new Note(id, patientId, "2023-30-03", "content test");
         List<Note> notes = new ArrayList<>();
         notes.add(note);
         when(noteService.getNotes()).thenReturn(notes);
@@ -81,7 +83,8 @@ public class NoteControllerTest {
     public void testGetNote() throws Exception {
         /*ARRANGE*/
         String id = "1";
-        Note note = new Note("1", "2023-30-03", "content test");
+        int patientId = 2;
+        Note note = new Note(id, patientId, "2023-30-03", "content test");
         when(noteService.getNote(id)).thenReturn(note);
 
         /*ACT AND ASSERT*/
@@ -112,40 +115,43 @@ public class NoteControllerTest {
     public void testGetNotesByPatientId() throws Exception{
         /*ARRANGE*/
         String id ="1";
-        Note note = new Note("1", "2023-30-03", "content test");
+        int patientId = 2;
+        Note note = new Note(id, patientId, "2023-30-03", "content test");
         List<Note> notes = new ArrayList<>();
         notes.add(note);
-        when(noteService.getNotesByPatientId(id)).thenReturn(notes);
+        when(noteService.getNotesByPatientId(patientId)).thenReturn(notes);
 
         /*ACT AND ASSERT*/
-        mockMvc.perform(get("/note/patientId/{id}", id))
+        mockMvc.perform(get("/note/patientId/{id}", patientId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("[0].content", is("content test")));
-        verify(noteService).getNotesByPatientId(id);
+        verify(noteService).getNotesByPatientId(patientId);
     }
 
     @Test
     @DisplayName("Echec de la recuperation des notes par patientId")
     public void testGetNotesByPatientIdThrowsNoteNotFoundException() throws Exception{
         /*ARRANGE*/
-        String id = "1";
+        int patientId = 2;
         List<Note> notes = new ArrayList<>();
-        when(noteService.getNotesByPatientId(id)).thenReturn(notes);
-        /*ACT AND ASSERT*/
+        when(noteService.getNotesByPatientId(patientId)).thenReturn(notes);
 
-        mockMvc.perform(get("/note/patientId/{id}", id)
+        /*ACT AND ASSERT*/
+        mockMvc.perform(get("/note/patientId/{id}", patientId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertThat(result.getResolvedException() instanceof NoteNotFoundException))
                 .andExpect(result -> assertThat(result.getResolvedException().getMessage()).isEqualTo("patient note list is empty"));
-        verify(noteService).getNotesByPatientId(id);
+        verify(noteService).getNotesByPatientId(patientId);
     }
 
     @Test
     @DisplayName("Test de la sauvegarde d'une note")
     public void testAddNote() throws Exception{
         /*ARRANGE*/
-        Note addedNote = new Note("1", "2023-30-03", "content test");
+        String id = "1";
+        int patientId = 2;
+        Note addedNote = new Note(id, patientId, "2023-30-03", "content test");
         ObjectMapper objectMapper = new ObjectMapper();
         when(noteService.addNote(addedNote)).thenReturn(addedNote);
 
@@ -163,8 +169,9 @@ public class NoteControllerTest {
     public void testUpdateNote() throws Exception{
         /*ARRANGE*/
         String id = "1";
-        Note note = new Note("1", "2023-30-03", "content test");
-        Note updatedNote = new Note("1", "2023-30-03", "content test updated");
+        int patientId = 2;
+        Note note = new Note(id, patientId, "2023-30-03", "content test");
+        Note updatedNote = new Note(id, patientId, "2023-30-03", "content test updated");
         ObjectMapper objectMapper = new ObjectMapper();
         when(noteService.updateNote(id, note)).thenReturn(updatedNote);
 
@@ -182,7 +189,8 @@ public class NoteControllerTest {
     public void testUpdateNoteThrowsNoteNotFoundException() throws Exception{
         /*ARRANGE*/
         String id = "1";
-        Note note = new Note("1", "2023-30-03", "content test");
+        int patientId = 2;
+        Note note = new Note(id, patientId, "2023-30-03", "content test");
         ObjectMapper objectMapper = new ObjectMapper();
         when(noteService.updateNote(id, note)).thenReturn(null);
 
@@ -201,7 +209,8 @@ public class NoteControllerTest {
     public void testDeleteNote() throws Exception{
         /*ARRANGE*/
         String id ="1";
-        Note note = new Note("1", "2023-30-03", "content test");
+        int patientId = 2;
+        Note note = new Note(id, patientId, "2023-30-03", "content test");
         when(noteService.deleteNote(id)).thenReturn(note);
 
         /*ACT AND ASSERT*/
