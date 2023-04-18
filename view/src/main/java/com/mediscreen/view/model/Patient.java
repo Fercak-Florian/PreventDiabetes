@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class Patient {
 
-    private String id;
+    private int id;
     @NotBlank(message = "FirstName is mandatory")
     private String lastName;
     @NotBlank(message = "LastName is mandatory")
