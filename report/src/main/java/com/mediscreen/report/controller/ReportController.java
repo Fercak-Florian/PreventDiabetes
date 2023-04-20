@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 @Slf4j
 @RestController
 @Api("API permettant la récupération d'un rapport de diabete")
@@ -19,15 +20,15 @@ public class ReportController {
 
     private ReportService reportService;
 
-    public ReportController(ReportService reportService){
+    public ReportController(ReportService reportService) {
         this.reportService = reportService;
     }
 
     @ApiOperation("Endpoint permettant la récupération d'un rapport de diabete")
     @RequestMapping(value = "/report/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Report> getReport(@PathVariable("id") int id){
+    public ResponseEntity<Report> getReport(@PathVariable("id") int id) {
         Report report = reportService.getReport(id);
-        if(report == null){
+        if (report == null) {
             log.warn("error during report generation");
             throw new ReportGenerationException("error during report generation");
         } else {

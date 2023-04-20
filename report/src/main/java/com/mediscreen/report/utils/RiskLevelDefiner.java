@@ -1,6 +1,5 @@
 package com.mediscreen.report.utils;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +27,7 @@ public class RiskLevelDefiner {
                     case 6:
                         levelRisk = "In danger";
                         break;
-                    /*si le patient a 8 declencheurs ou + -> A AMELIORER*/
+                    /*si le patient a 8 declencheurs ou + */
                     case 8:
                         levelRisk = "Early onset";
                         break;
@@ -39,6 +38,7 @@ public class RiskLevelDefiner {
             } else
                 /*si le patient a -30 ans*/
                 if (age < 30) {
+                    /*si le patient est un homme*/
                     if (sex.contains("M")) {
                         switch (numberOfTriggers) {
                             case 3:
@@ -51,7 +51,7 @@ public class RiskLevelDefiner {
                                 levelRisk = "undefined";
                                 break;
                         }
-
+                        /*si le patient est une femme*/
                     } else if (sex.contains("F")) {
                         switch (numberOfTriggers) {
                             case 4:

@@ -60,7 +60,7 @@ public class ReportService {
             log.warn("error during retreiving notes");
         }
 
-        if(patientBean == null || notesBeans == null){
+        if (patientBean == null || notesBeans == null) {
             return null;
         }
 
@@ -80,7 +80,6 @@ public class ReportService {
 
         /*--------- paramètres de génération du rapport ---------*/
         SubReport subReport = new SubReport(sex, numberOfTriggers, age);
-
 
         log.info("nombre de declencheurs : " + numberOfTriggers);
 
