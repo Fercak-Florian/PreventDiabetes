@@ -2,7 +2,6 @@ package com.mediscreen.report.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,10 +14,9 @@ public class TriggerTerms {
 
     private List<String> triggers = new ArrayList<>();
 
-    public TriggerTerms(){
+    public TriggerTerms() {
         initTriggerTerms();
     }
-
 
     public List<String> initTriggerTerms() {
         triggers.add("Hémoglobine A1C");

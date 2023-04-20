@@ -10,7 +10,6 @@ import com.mediscreen.report.proxy.MicroservicePatientProxy;
 import com.mediscreen.report.utils.AgeCalculate;
 import com.mediscreen.report.utils.NoteParser;
 import com.mediscreen.report.utils.RiskLevelDefiner;
-import com.mediscreen.report.utils.SubReport;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +59,7 @@ public class ReportService {
             log.warn("error during retreiving notes");
         }
 
-        if(patientBean == null || notesBeans == null){
+        if (patientBean == null || notesBeans == null) {
             return null;
         }
 
@@ -78,13 +77,9 @@ public class ReportService {
         String sex = patientBean.getSex();
         String riskLevel = riskLevelDefiner.define(age, sex, numberOfTriggers);
 
-        /*--------- paramètres de génération du rapport ---------*/
-        SubReport subReport = new SubReport(sex, numberOfTriggers, age);
-
-
         log.info("nombre de declencheurs : " + numberOfTriggers);
 
         /*--------- construction et retour du rapport ---------*/
-        return new Report(patientBean.getLastName(), patientBean.getFirstName(), age, riskLevel, subReport);
+        return new Report(patientBean.getLastName(), patientBean.getFirstName(), age, riskLevel);
     }
 }

@@ -1,6 +1,5 @@
 package com.mediscreen.report.model;
 
-import com.mediscreen.report.utils.SubReport;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +12,4 @@ public class Report {
     private String firstName;
     private int age;
     private String riskLevel;
-    private SubReport subReport;
 }
