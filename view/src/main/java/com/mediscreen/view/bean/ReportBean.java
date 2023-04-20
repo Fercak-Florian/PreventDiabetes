@@ -12,5 +12,4 @@ public class ReportBean {
     private String firstName;
     private int age;
     private String riskLevel;
-    private SubReport subReport;
 }
