@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface MicroserviceReportProxy {
 
     @GetMapping("/report/{id}")
-    ReportBean getReport(@PathVariable String id);
+    ReportBean getReport(@PathVariable("id") int id);
 }

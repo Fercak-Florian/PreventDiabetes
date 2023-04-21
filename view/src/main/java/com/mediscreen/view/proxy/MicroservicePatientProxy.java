@@ -29,8 +29,8 @@ public interface MicroservicePatientProxy {
     PatientBean addPatient(@RequestBody PatientBean patientBean);
 
     @RequestMapping(value = "/patient/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    PatientBean updatePatient(@RequestBody PatientBean patientBean, @PathVariable int id);
+    PatientBean updatePatient(@RequestBody PatientBean patientBean, @PathVariable("id") int id);
 
     @RequestMapping(value = "/patient/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    PatientBean deletePatient(@PathVariable int id);
+    PatientBean deletePatient(@PathVariable("id") int id);
 }

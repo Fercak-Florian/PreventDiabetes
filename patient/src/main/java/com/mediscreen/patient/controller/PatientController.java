@@ -82,7 +82,7 @@ public class PatientController {
 
     @ApiOperation("Endpoint permettant la mise à jour d'un patient")
     @RequestMapping(value = "/patient/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient, @PathVariable int id) {
+    public ResponseEntity<Patient> updatePatient(@Valid @RequestBody Patient patient, @PathVariable("id") int id) {
         Patient updatedPatient = patientService.updatePatient(id, patient);
         if (updatedPatient == null) {
             log.warn("patient not found for this id : " + id);
@@ -100,7 +100,7 @@ public class PatientController {
 
     @ApiOperation("Endpoint permettant la suppression d'un patient")
     @RequestMapping(value = "/patient/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Patient> deletePatient(@PathVariable int id) {
+    public ResponseEntity<Patient> deletePatient(@PathVariable("id") int id) {
         Patient patient = patientService.deletePatient(id);
         if (patient == null) {
             log.warn("error during deleting patient with id : " + id);
