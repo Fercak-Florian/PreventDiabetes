@@ -10,9 +10,18 @@ public class CustomErrorDecoder implements ErrorDecoder{
     @Override
     public Exception decode(String invoqueur, Response response) {
 
-        if (response.status() == 404 && response.request().toString().contains("http://localhost:8081/patient")) {
+        /*suppression du début de la requete http*/
+        String url = response.request().toString();
+        int index = url.indexOf(":");
+        url = url.substring(index + 1);
+        index = url.indexOf(":");
+        url = url.substring(index +1);
+        index = url.indexOf("/");
+        url = url.substring(index);
+
+        if (response.status() == 404 && url.startsWith("/patient")) {
             return new PatientNotFoundException("patient does not exist");
-        } else if (response.status() == 404 && response.request().toString().contains("http://localhost:8082/note")) {
+        } else if (response.status() == 404 && url.startsWith("/note")) {
             return new NoteNotFoundException("list is empty");
         }
         {

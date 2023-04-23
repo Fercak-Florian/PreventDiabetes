@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(name = "patient", url = "localhost:8081")
+@FeignClient(name = "patient", url = "${spring.cloud.openfeign.client.config.patient.url}")
 public interface MicroservicePatientProxy {
 
     @RequestMapping(value = "/patient/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
