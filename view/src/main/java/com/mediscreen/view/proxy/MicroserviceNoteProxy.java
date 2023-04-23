@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name = "note", url = "localhost:8082")
+@FeignClient(name = "note", url = "${spring.cloud.openfeign.client.config.note.url}")
 public interface MicroserviceNoteProxy {
 
     /*Signature des méthodes présentes dans NoteController*/

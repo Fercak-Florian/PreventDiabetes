@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(name = "patient", url = "localhost:8081")
+@FeignClient(name = "patient", url = "${spring.cloud.openfeign.client.config.patient.url}")
 public interface MicroservicePatientProxy {
 
     /*SIGNATURES DES METHODES PRESENTES DANS PatientController*/
