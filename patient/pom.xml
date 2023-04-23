@@ -13,26 +13,8 @@
     <artifactId>patient</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <!-- ================================================================== -->
-    <!-- PROFILES -->
-    <!-- ================================================================== -->
-
-    <profiles>
-        <profile>
-            <id>prod</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <!--
-                <spring.profiles.active>prod</spring.profiles.active>
-                -->
-            </properties>
-        </profile>
-    </profiles>
-
     <name>patient</name>
-    <description>Spring Boot project for clinique Abernathy</description>
+    <description>Spring Boot project for patient CRUD operations</description>
     <properties>
         <java.version>11</java.version>
     </properties>

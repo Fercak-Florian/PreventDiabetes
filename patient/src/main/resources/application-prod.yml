@@ -1,7 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:mysql://mysql_container/prevent_diabetes
-    username: root
-    password: rootroot
-    platform: mysql_container
-    initialization-mode: always
