@@ -54,6 +54,8 @@ You can run this project int two ways :
    - got to directory PreventDiabetes, we will use the docker-compose.yml file to run the 4 containers simultaneously
    - use the docker command : docker-compose up -d
 Now that the 4 container run simultaneously in one stack, go to http://localhost:8085 to use the prevent diabetes application
+
+To stop the containers use the docker command : docker-compose down
   
  
  =====================================================================================
