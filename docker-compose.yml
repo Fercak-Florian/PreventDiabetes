@@ -1,0 +1,64 @@
+# on declare la version de Docker-Compose que l'on souhaite utiliser
+version: "3"
+
+# on declare les images(microservices) qui composeront la stack
+services:
+
+  #image mysql
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    volumes:
+      # permet de specifier l'emplacement des donnees
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: prevent_diabetes
+      #MYSQL_ROOT_USERNAME: root
+      MYSQL_ROOT_PASSWORD: rootroot
+
+  # image patient
+  patient:
+    depends_on:
+      - db
+    image: patient-0.0.1
+    container_name: patient
+    ports:
+      - "8081:8081"
+    restart: always
+    environment:
+      MYSQL_HOST: mysql_container # the hostname for the running MySQL server
+      MYSQL_USER: root # the username to use for the connection
+      MYSQL_PASSWORD: rootroot # the password to use for the connection
+      MYSQL_DB: prevent_diabetes # the database to use once connected
+    tty: true
+
+  # image note
+  note:
+    image: note-0.0.1
+    container_name: note
+    ports:
+      - "8082:8082"
+    restart: always
+    tty: true
+
+  # image report
+  report:
+      image: report-0.0.1
+      container_name: report
+      ports:
+        - "8083:8083"
+      restart: always
+      tty: true
+
+  # image view
+  view:
+      image: view-0.0.1
+      container_name: view
+      ports:
+        - "8085:8085"
+      restart: always
+
+volumes:
+  db_data: { }
+
