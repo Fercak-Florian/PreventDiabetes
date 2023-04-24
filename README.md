@@ -30,7 +30,7 @@ You can run this project int two ways :
  
  
  Running with docker:
- To run this application with docker, docker has to be already installed on your PC.
+  - To run this application with docker, docker has to be already installed on your PC.
 
  
   Step 1 : building the jar for each of the 4 module
