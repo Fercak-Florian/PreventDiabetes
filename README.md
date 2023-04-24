@@ -13,6 +13,8 @@ To use this project, download the git .zip package.
 You can run this project int two ways :
  - with IntelliJ
  - with Docker
+
+ =====================================================================================
  
  Running with IntelliJ:
  - Import one sub-project, the one as you want, patient project for example, using File/New/Project From Existing Sources
@@ -27,6 +29,9 @@ You can run this project int two ways :
  spring.profiles.active=dev
  
  Now that the 'dev' profile is set, you can run the 4 modules with IntelliJ and go to http://localhost:8085 to use the prevent diabetes application
+ 
+ 
+ =====================================================================================
  
  
  Running with docker:
@@ -50,7 +55,10 @@ You can run this project int two ways :
    - use the docker command : docker-compose up -d
   Now that the 4 container run simultaneously in one stack, go to http://localhost:8085 to use the prevent diabetes application
   
-  
+ 
+ =====================================================================================
+ 
+ 
   Swagger UI documentation :
   You can use links below to access the swagger ui documentation for patient, note and report, once this services are up.
   - Patient API documentation : http://localhost:8081/swagger-ui/
