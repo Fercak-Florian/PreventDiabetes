@@ -8,7 +8,7 @@ Spring Boot Project with :
  - Maven Maven 3.8.6
  - Docker 20.10.23
  
-To use this project, download the git .zip package. 
+To use this project, download the git .zip package on develop branch. 
 
 You can run this project int two ways :
  - with IntelliJ
