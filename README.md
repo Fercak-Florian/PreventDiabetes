@@ -11,8 +11,8 @@ Spring Boot Project with :
 To use this project, download the git .zip package. 
 
 You can run this project int two ways :
- -with IntelliJ
- -with Docker
+ - with IntelliJ
+ - with Docker
  
  Running with IntelliJ:
  - Import one sub-project, the one as you want, patient project for example, using File/New/Project From Existing Sources
