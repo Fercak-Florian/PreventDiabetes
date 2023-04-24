@@ -46,14 +46,14 @@ You can run this project int two ways :
   Step 2 : Using Docker to build 4 images
            Docker has to run before following the next steps
    - go to directory PreventDiabetes/patient/target and run this docker command : docker build -t <nameOfService>-0.01 .
-     To build the image from jar the docker command will be : docker build -t patient-0.01 .
+   - to build the image from jar the docker command will be : docker build -t patient-0.01 .
    - do the same for the note, report and view jar
    Now we have 4 docker images
   
   Step 3 : Using docker-compose to run the 4 container simultaneously
    - got to directory PreventDiabetes, we will use the docker-compose.yml file to run the 4 containers simultaneously
    - use the docker command : docker-compose up -d
-  Now that the 4 container run simultaneously in one stack, go to http://localhost:8085 to use the prevent diabetes application
+Now that the 4 container run simultaneously in one stack, go to http://localhost:8085 to use the prevent diabetes application
   
  
  =====================================================================================
