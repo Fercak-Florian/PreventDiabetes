@@ -5,8 +5,8 @@ This application is composed of 4 services.
 Spring Boot Project with :
 
  - Java 11
- - Maven
- - Docker
+ - Maven Maven 3.8.6
+ - Docker 20.10.23
  
 To use this project, download the git .zip package. 
 
