@@ -42,7 +42,7 @@ public class RiskLevelDefiner {
                     if (sex.contains("M")) {
                         switch (numberOfTriggers) {
                             case 3:
-                                levelRisk = "In Danger";
+                                levelRisk = "In danger";
                                 break;
                             case 5:
                                 levelRisk = "Early onset";
@@ -55,7 +55,7 @@ public class RiskLevelDefiner {
                     } else if (sex.contains("F")) {
                         switch (numberOfTriggers) {
                             case 4:
-                                levelRisk = "In Danger";
+                                levelRisk = "In danger";
                                 break;
                             case 7:
                                 levelRisk = "Early onset";
