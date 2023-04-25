@@ -1,5 +1,6 @@
 package com.mediscreen.report.utils;
 
+import com.mediscreen.report.bean.NoteBean;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,10 +43,12 @@ public class NoteParserTest {
     @DisplayName("Méthode trouve 2 déclencheurs")
     public void testCountFindTwoTriggersTerms() {
         /*ARRANGE*/
-        String note = "Taille Poids TriggerOne TriggerTwo TriggerThree";
+        List<NoteBean> notesBeans = new ArrayList<>();
+        NoteBean noteBean = new NoteBean("aaa", 1, "2023-04-23", "Taille Poids TriggerOne TriggerTwo TriggerThree");
+        notesBeans.add(noteBean);
 
         /*ACT*/
-        int result = noteParser.count(note);
+        int result = noteParser.count(notesBeans);
 
         /*ASSERT*/
         assertThat(result).isEqualTo(2);
