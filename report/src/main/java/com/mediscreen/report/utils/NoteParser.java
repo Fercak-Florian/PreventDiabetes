@@ -1,5 +1,6 @@
 package com.mediscreen.report.utils;
 
+import com.mediscreen.report.bean.NoteBean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,26 +18,34 @@ public class NoteParser {
     }
 
 
-    public int count(String note) {
+    public int count(List<NoteBean> notesBeans) {
         int count = 0;
-        String noteInUpperCase = note.toUpperCase();
 
-        String noteWhithoutWhitespace = noteInUpperCase.replaceAll("\\s", "");
+        for(NoteBean noteBean : notesBeans){
 
-        for (String trigger : triggers) {
+            String noteContent = noteBean.getContent();
 
-            /*trigger en UPPERCASE*/
-            String triggerInUpperCase = trigger.toUpperCase();
+            String noteInUpperCase = noteContent.toUpperCase();
 
-            /*suppression des whitespace du trigger*/
-            String correctTrigger = triggerInUpperCase.replaceAll("\\s", "");
+            String noteWhithoutWhitespace = noteInUpperCase.replaceAll("\\s", "");
 
-            while (noteWhithoutWhitespace.contains(correctTrigger)) {
-                /*suppression du trigger de la chaine*/
-                noteWhithoutWhitespace = noteWhithoutWhitespace.replace(correctTrigger, "");
-                count++;
+            for (String trigger : triggers) {
+
+                /*trigger en UPPERCASE*/
+                String triggerInUpperCase = trigger.toUpperCase();
+
+                /*suppression des whitespace du trigger*/
+                String correctTrigger = triggerInUpperCase.replaceAll("\\s", "");
+
+                while (noteWhithoutWhitespace.contains(correctTrigger)) {
+                    /*suppression du trigger de la chaine*/
+                    noteWhithoutWhitespace = noteWhithoutWhitespace.replace(correctTrigger, "");
+                    count++;
+                }
             }
         }
+
+
         return count;
     }
 }

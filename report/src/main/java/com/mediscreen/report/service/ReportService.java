@@ -64,13 +64,7 @@ public class ReportService {
         }
 
         /*--------- analyse des notes ---------*/
-        int numberOfTriggers = 0;
-        for (NoteBean note : notesBeans) {
-            int count = noteParser.count(note.getContent());
-            if (count > 0) {
-                numberOfTriggers = numberOfTriggers + count;
-            }
-        }
+        int numberOfTriggers = noteParser.count(notesBeans);
 
         /*--------- définition du niveau de risque ---------*/
         int age = ageCalculate.calculate(patientBean.getDob());
