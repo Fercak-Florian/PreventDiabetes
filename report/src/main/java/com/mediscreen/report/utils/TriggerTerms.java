@@ -12,13 +12,13 @@ import java.util.List;
 @AllArgsConstructor
 public class TriggerTerms {
 
-    private List<String> triggers = new ArrayList<>();
+    List<String> triggers = new ArrayList<>();
 
     public TriggerTerms() {
-        initTriggerTerms();
+        initTriggerList();
     }
 
-    public List<String> initTriggerTerms() {
+    public List<String> initTriggerList() {
         triggers.add("Hémoglobine A1C");
         triggers.add("Microalbumine");
         triggers.add("Taille");
