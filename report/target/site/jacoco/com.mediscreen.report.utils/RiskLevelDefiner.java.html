@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RiskLevelDefiner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">report</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.report.utils</a> &gt; <span class="el_source">RiskLevelDefiner.java</span></div><h1>RiskLevelDefiner.java</h1><pre class="source lang-java linenums">package com.mediscreen.report.utils;
+
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+<span class="fc" id="L7">@NoArgsConstructor</span>
+public class RiskLevelDefiner {
+
+    public String define(int age, String sex, int numberOfTriggers) {
+
+<span class="fc" id="L12">        String levelRisk = &quot;&quot;;</span>
+<span class="fc bfc" id="L13" title="All 2 branches covered.">        if (numberOfTriggers &gt;= 8) {</span>
+<span class="fc" id="L14">            numberOfTriggers = 8;</span>
+        }
+
+        /*Si le nombre de déclencheurs est 0, quelque soit l'âge ou le sex -&gt; None*/
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if (numberOfTriggers == 0) {</span>
+<span class="fc" id="L19">            return &quot;None&quot;;</span>
+        } else
+            /*Si le patient a +30 ans*/
+<span class="fc bfc" id="L22" title="All 2 branches covered.">            if (age &gt; 30) {</span>
+<span class="fc bfc" id="L23" title="All 4 branches covered.">                switch (numberOfTriggers) {</span>
+                    case 2:
+<span class="fc" id="L25">                        levelRisk = &quot;Borderline&quot;;</span>
+<span class="fc" id="L26">                        break;</span>
+                    case 6:
+<span class="fc" id="L28">                        levelRisk = &quot;In danger&quot;;</span>
+<span class="fc" id="L29">                        break;</span>
+                    /*si le patient a 8 declencheurs ou + */
+                    case 8:
+<span class="fc" id="L32">                        levelRisk = &quot;Early onset&quot;;</span>
+<span class="fc" id="L33">                        break;</span>
+                    default:
+<span class="fc" id="L35">                        levelRisk = &quot;undefined&quot;;</span>
+<span class="fc" id="L36">                        break;</span>
+                }
+            } else
+                /*si le patient a -30 ans*/
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">                if (age &lt; 30) {</span>
+                    /*si le patient est un homme*/
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                    if (sex.contains(&quot;M&quot;)) {</span>
+<span class="fc bfc" id="L43" title="All 3 branches covered.">                        switch (numberOfTriggers) {</span>
+                            case 3:
+<span class="fc" id="L45">                                levelRisk = &quot;In danger&quot;;</span>
+<span class="fc" id="L46">                                break;</span>
+                            case 5:
+<span class="fc" id="L48">                                levelRisk = &quot;Early onset&quot;;</span>
+<span class="fc" id="L49">                                break;</span>
+                            default:
+<span class="fc" id="L51">                                levelRisk = &quot;undefined&quot;;</span>
+<span class="fc" id="L52">                                break;</span>
+                        }
+                        /*si le patient est une femme*/
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">                    } else if (sex.contains(&quot;F&quot;)) {</span>
+<span class="fc bfc" id="L56" title="All 3 branches covered.">                        switch (numberOfTriggers) {</span>
+                            case 4:
+<span class="fc" id="L58">                                levelRisk = &quot;In danger&quot;;</span>
+<span class="fc" id="L59">                                break;</span>
+                            case 7:
+<span class="fc" id="L61">                                levelRisk = &quot;Early onset&quot;;</span>
+<span class="fc" id="L62">                                break;</span>
+                            default:
+<span class="fc" id="L64">                                levelRisk = &quot;undefined&quot;;</span>
+                                break;
+                        }
+                    }
+                }
+<span class="fc" id="L69">        return levelRisk;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

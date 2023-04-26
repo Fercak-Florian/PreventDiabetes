@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NoteParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">report</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.report.utils</a> &gt; <span class="el_source">NoteParser.java</span></div><h1>NoteParser.java</h1><pre class="source lang-java linenums">package com.mediscreen.report.utils;
+
+import com.mediscreen.report.bean.NoteBean;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+public class NoteParser {
+
+    private List&lt;String&gt; triggers;
+
+    private TriggerTerms triggerTerms;
+
+<span class="fc" id="L15">    public NoteParser(TriggerTerms triggerTerms) {</span>
+<span class="fc" id="L16">        this.triggerTerms = triggerTerms;</span>
+<span class="fc" id="L17">        triggers = triggerTerms.getTriggers();</span>
+<span class="fc" id="L18">    }</span>
+
+
+    public int count(List&lt;NoteBean&gt; notesBeans) {
+<span class="fc" id="L22">        int count = 0;</span>
+
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        for(NoteBean noteBean : notesBeans){</span>
+
+<span class="fc" id="L26">            String noteContent = noteBean.getContent();</span>
+
+<span class="fc" id="L28">            String noteInUpperCase = noteContent.toUpperCase();</span>
+
+<span class="fc" id="L30">            String noteWhithoutWhitespace = noteInUpperCase.replaceAll(&quot;\\s&quot;, &quot;&quot;);</span>
+
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            for (String trigger : triggers) {</span>
+
+                /*trigger en UPPERCASE*/
+<span class="fc" id="L35">                String triggerInUpperCase = trigger.toUpperCase();</span>
+
+                /*suppression des whitespace du trigger*/
+<span class="fc" id="L38">                String correctTrigger = triggerInUpperCase.replaceAll(&quot;\\s&quot;, &quot;&quot;);</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                while (noteWhithoutWhitespace.contains(correctTrigger)) {</span>
+                    /*suppression du trigger de la chaine*/
+<span class="fc" id="L42">                    noteWhithoutWhitespace = noteWhithoutWhitespace.replace(correctTrigger, &quot;&quot;);</span>
+<span class="fc" id="L43">                    count++;</span>
+                }
+<span class="fc" id="L45">            }</span>
+<span class="fc" id="L46">        }</span>
+
+
+<span class="fc" id="L49">        return count;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
