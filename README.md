@@ -1,6 +1,5 @@
 # PreventDiabetes
-This application has been developed to help doctors identify the patients most at risk of developing a form of diabetes.
-This application is composed of 4 services.
+This application has been developed to help doctors identify the patients most at risk of developing a form of diabetes.  This application is composed of 4 services.
 
 Spring Boot Project with :
 
