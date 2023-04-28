@@ -10,7 +10,7 @@ This application is composed of 4 services.
  
 ## Installation
  
-#### Step 1 : Download this project
+#### Step 1 : download this project
  
 #### Step 2 : package the application
 Go to root directory of each module  
