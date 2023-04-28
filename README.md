@@ -19,6 +19,7 @@ For each module, run the maven command : **mvn clean package**
 #### Step 3 : build the docker images
 In the root directory of each module, run the docker command : **docker build -t nom_du_conteneur .**  
 
+## Run
 #### Step 4 : run the application stack
 Go to the docker-compose.yml directory and run the docker command : **docker-compose up -d**
 
