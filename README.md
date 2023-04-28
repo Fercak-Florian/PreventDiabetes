@@ -8,7 +8,7 @@ This application is composed of 4 services.
  - Maven 3.8.6
  - Docker 20.10.23
  
-## Installation
+## Installation :
  
 #### Step 1 : download this project
  
@@ -19,7 +19,7 @@ For each module, run the maven command : **mvn clean package**
 #### Step 3 : build the docker images
 In the root directory of each module, run the docker command : **docker build -t nom_du_conteneur .**  
 
-## Run
+## Run :
 #### Step 4 : run the application stack
 Go to the docker-compose.yml directory and run the docker command : **docker-compose up -d**
 
