@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Report</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <a href="/">Home</a>&nbsp;|&nbsp;
+            <a href="/patient/search">Search Patient</a>&nbsp;|&nbsp;
+            <a href="/patient/add">Add Patient</a>&nbsp;|&nbsp;
+            <a href="/patient/list">View Patient List</a>
+        </div>
+    </div>
+    <h1>Patient Diabetes Report : </h1>
+    <p> LastName : <span th:text="${report.lastName}"></span></p>
+    <p> FirstName : <span th:text="${report.firstName}"></span></p>
+    <p> Age : <span th:text="${report.age}"></span></p>
+    <p> Risk Level : <span th:text="${report.riskLevel}"></span></p>
+    </div>
+</body>
+</html>

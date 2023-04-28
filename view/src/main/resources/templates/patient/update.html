@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Update Patient</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <a href="/">Home</a>&nbsp;|&nbsp;
+            <a href="/patient/search">Search Patient</a>&nbsp;|&nbsp;
+            <a href="/patient/add">Add Patient</a>&nbsp;|&nbsp;
+            <a href="/patient/list">View Patient List</a>
+        </div>
+    </div>
+    <div class="row">
+        <h2>Update Patient</h2>
+    </div>
+    <div class="row">
+        <form action="#" th:action="@{/patient/update/{lastName}(lastName=${patient.lastName})}" th:object="${patient}"
+              method="post"
+              class="form-horizontal" style="width: 100%">
+            <div class="form-group">
+                <label for="type" class="col-sm-2 control-label">LastName</label>
+                <div class="col-sm-10">
+                    <input type="text" id="type" th:field="*{lastName}" th:value="${patient.lastName}">
+                    <p class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="firstName" class="col-sm-2 control-label">FirstName</label>
+                <div class="col-sm-10">
+                    <input type="text" id="firstName" th:field="*{firstName}" th:value="${patient.firstName}">
+                    <p class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dob" class="col-sm-2 control-label">Date of birth</label>
+                <div class="col-sm-10">
+                    <input type="text" id="dob" th:field="*{dob}"
+                           th:value="${patient.dob}">
+                    <p class="text-danger" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="sex" class="col-sm-2 control-label">Sex</label>
+                <div class="col-sm-10">
+                    <input type="text" id="sex" th:field="*{sex}"
+                           th:value="${patient.sex}">
+                    <p class="text-danger" th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}">
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address" class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10">
+                    <input type="text" id="address" th:field="*{address}"
+                           th:value="${patient.address}">
+                    <p class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">Phone</label>
+                <div class="col-sm-10">
+                    <input type="text" id="phone" th:field="*{phone}"
+                           th:value="${patient.phone}">
+                    <p class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <a th:href="@{/patient/{id}(id=${patient.id})}" class="btn btn-danger btn-sm" formmethod="get">Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-sm" formmethod="post"
+                            th:formaction="@{/patient/update/{id}(id=${patient.id})}">Update Patient
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+
+</html>
