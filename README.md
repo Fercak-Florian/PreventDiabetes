@@ -22,7 +22,7 @@ In the root directory of each module, run the docker command : **docker build -t
 ## Run :
 #### Step 4 : run the application stack
 Go to the docker-compose.yml directory and run the docker command : **docker-compose up -d**  
-To use the application, start your brower and go to http://localhost:8085
+To use the application, start your browser and go to http://localhost:8085
 
 #### Step 5 : stop the application
 To stop the application, run the docker command : **docker-compose stop**
