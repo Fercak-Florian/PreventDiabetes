@@ -8,46 +8,46 @@
 </head>
 
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-6">
+    <div class="container">
+        <div class="d-flex justify-content-center mt-5">
             <a href="/">Home</a>&nbsp;|&nbsp;
             <a href="/patient/search">Search Patient</a>&nbsp;|&nbsp;
             <a href="/patient/add">Add Patient</a>&nbsp;|&nbsp;
             <a href="/patient/list">View Patient List</a>
         </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <h2>Patient List</h2>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>LastName</th>
+                    <th>FirstName</th>
+                    <th>Date of Birth</th>
+                    <th>Sex</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="patient: ${patients}">
+                    <td><a th:href="@{/patient/{id}(id=${patient.id})}"><span th:text="${patient.lastName}"></span></a></td>
+                    <td th:text="${patient.firstName}"></td>
+                    <td th:text="${patient.dob}"></td>
+                    <td th:text="${patient.sex}"></td>
+                    <td th:text="${patient.address}"></td>
+                    <td th:text="${patient.phone}"></td>
+                    <td><a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
+                        <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="row">
-        <h2>Patient List</h2>
-    </div>
-    <div class="row">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>LastName</th>
-                <th>FirstName</th>
-                <th>Date of Birth</th>
-                <th>Sex</th>
-                <th>Address</th>
-                <th>Phone</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="patient: ${patients}">
-                <td><a th:href="@{/patient/{id}(id=${patient.id})}"><span th:text="${patient.lastName}"></span></a></td>
-                <td th:text="${patient.firstName}"></td>
-                <td th:text="${patient.dob}"></td>
-                <td th:text="${patient.sex}"></td>
-                <td th:text="${patient.address}"></td>
-                <td th:text="${patient.phone}"></td>
-                <td><a th:href="@{/patient/update/{id}(id=${patient.id})}">Edit</a>&nbsp;|&nbsp;
-                    <a th:href="@{/patient/delete/{id}(id=${patient.id})}">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 </body>
 
 </html>

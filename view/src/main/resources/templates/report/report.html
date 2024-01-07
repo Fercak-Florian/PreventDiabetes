@@ -7,20 +7,28 @@
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-6">
+    <div class="container">
+        <div class="d-flex justify-content-center mt-5">
             <a href="/">Home</a>&nbsp;|&nbsp;
             <a href="/patient/search">Search Patient</a>&nbsp;|&nbsp;
             <a href="/patient/add">Add Patient</a>&nbsp;|&nbsp;
             <a href="/patient/list">View Patient List</a>
         </div>
-    </div>
-    <h1>Patient Diabetes Report : </h1>
-    <p> LastName : <span th:text="${report.lastName}"></span></p>
-    <p> FirstName : <span th:text="${report.firstName}"></span></p>
-    <p> Age : <span th:text="${report.age}"></span></p>
-    <p> Risk Level : <span th:text="${report.riskLevel}"></span></p>
+        <div>
+            <div>
+                <h1 class="d-flex justify-content-center mt-3">Patient Diabetes Report : </h1>
+                <div class="d-flex justify-content-center mt-3">
+                    <div>
+                        <p> LastName : <span th:text="${report.lastName}"></span></p>
+                        <p> FirstName : <span th:text="${report.firstName}"></span></p>
+                        <p> Age : <span th:text="${report.age}"></span></p>
+                        <p> Risk Level : <span th:text="${report.riskLevel}"></span></p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
     </div>
 </body>
 </html>
